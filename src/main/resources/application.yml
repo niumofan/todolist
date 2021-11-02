@@ -1,0 +1,20 @@
+spring:
+  datasource:
+    password: Mama13623717782
+    username: nmf
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://rm-uf6d34064973z54jy0o.mysql.rds.aliyuncs.com:3306/todolist_test2?useUnicode=true&characterEncoding=utf-8&serverTimezone=Asia/Shanghai&useSSL=false
+
+mybatis:
+  configuration:
+    map-underscore-to-camel-case: true
+  mapper-locations: classpath:mapper/*.xml, classpath:dao/*.xml, classpath:mybatis/mapping/**/*.xml
+
+
+swagger:
+  title: spring-boot-starter-swagger
+  description: Starter for swagger 2.x
+  license: Apache License, Version 2.0
+  license-url: https://www.apache.org/licenses/LICENSE-2.0.html
+  base-package: com.todolist_test2.demo
+  base-path: /**

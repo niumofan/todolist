@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.todolist_test2.demo.dao.UserDao">
+    <select id="selectPermissionsByUserId" resultType="com.todolist_test2.demo.mbg.model.Permission">
+        SELECT p.id, code, name
+        FROM r_user_role rur
+        LEFT JOIN r_role_permission rrp ON rur.role_id = rrp.role_id
+        LEFT JOIN s_permission p ON rrp.permission_id = p.id
+        WHERE rur.user_id = #{userId}
+    </select>
+</mapper>
