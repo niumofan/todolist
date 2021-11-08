@@ -3,7 +3,10 @@ package com.todolist_test2.demo.controller;
 import com.todolist_test2.demo.dto.UserRegisterDTO;
 import com.todolist_test2.demo.entity.SecurityUser;
 import com.todolist_test2.demo.service.UserService;
+import com.todolist_test2.demo.utils.ResultTool;
 import com.todolist_test2.demo.vo.JsonResult;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -33,7 +36,7 @@ public class UserController {
     }
 
     @PostMapping("getUser")
-    public JsonResult<SecurityUser> getUser() {
-        return null;
+    public JsonResult<String> getUser() {
+        return ResultTool.success( "aaabbbccc");
     }
 }

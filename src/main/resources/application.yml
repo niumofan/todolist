@@ -4,6 +4,10 @@ spring:
     username: nmf
     driver-class-name: com.mysql.cj.jdbc.Driver
     url: jdbc:mysql://rm-uf6d34064973z54jy0o.mysql.rds.aliyuncs.com:3306/todolist_test2?useUnicode=true&characterEncoding=utf-8&serverTimezone=Asia/Shanghai&useSSL=false
+  redis:
+    host: 106.15.177.150
+    port: 6379
+
 
 mybatis:
   configuration:
