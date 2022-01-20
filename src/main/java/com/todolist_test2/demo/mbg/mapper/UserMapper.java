@@ -2,8 +2,9 @@ package com.todolist_test2.demo.mbg.mapper;
 
 import com.todolist_test2.demo.mbg.model.User;
 import com.todolist_test2.demo.mbg.model.UserExample;
-import java.util.List;
 import org.apache.ibatis.annotations.Param;
+
+import java.util.List;
 
 public interface UserMapper {
     long countByExample(UserExample example);

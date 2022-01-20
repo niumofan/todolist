@@ -4,24 +4,25 @@ import io.swagger.annotations.ApiModelProperty;
 
 import java.io.Serializable;
 
-public class UserRole implements Serializable {
+public class Api implements Serializable {
+    @ApiModelProperty(value = "请求路径ID")
     private Integer id;
 
-    @ApiModelProperty(value = "用户ID")
-    private Integer userId;
+    @ApiModelProperty(value = "请求路径")
+    private String url;
 
-    @ApiModelProperty(value = "角色ID")
-    private Integer roleId;
+    @ApiModelProperty(value = "功能描述")
+    private String description;
 
     private static final long serialVersionUID = 1L;
 
-    public UserRole(Integer id, Integer userId, Integer roleId) {
+    public Api(Integer id, String url, String description) {
         this.id = id;
-        this.userId = userId;
-        this.roleId = roleId;
+        this.url = url;
+        this.description = description;
     }
 
-    public UserRole() {
+    public Api() {
         super();
     }
 
@@ -33,20 +34,20 @@ public class UserRole implements Serializable {
         this.id = id;
     }
 
-    public Integer getUserId() {
-        return userId;
+    public String getUrl() {
+        return url;
     }
 
-    public void setUserId(Integer userId) {
-        this.userId = userId;
+    public void setUrl(String url) {
+        this.url = url;
     }
 
-    public Integer getRoleId() {
-        return roleId;
+    public String getDescription() {
+        return description;
     }
 
-    public void setRoleId(Integer roleId) {
-        this.roleId = roleId;
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     @Override
@@ -56,8 +57,8 @@ public class UserRole implements Serializable {
         sb.append(" [");
         sb.append("Hash = ").append(hashCode());
         sb.append(", id=").append(id);
-        sb.append(", userId=").append(userId);
-        sb.append(", roleId=").append(roleId);
+        sb.append(", url=").append(url);
+        sb.append(", description=").append(description);
         sb.append(", serialVersionUID=").append(serialVersionUID);
         sb.append("]");
         return sb.toString();

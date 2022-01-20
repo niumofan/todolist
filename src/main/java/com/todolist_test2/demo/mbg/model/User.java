@@ -1,6 +1,7 @@
 package com.todolist_test2.demo.mbg.model;
 
 import io.swagger.annotations.ApiModelProperty;
+
 import java.io.Serializable;
 import java.util.Date;
 
@@ -18,7 +19,7 @@ public class User implements Serializable {
     private String nickname;
 
     @ApiModelProperty(value = "性别")
-    private Byte sex;
+    private String sex;
 
     @ApiModelProperty(value = "手机号")
     private String mobile;
@@ -64,6 +65,32 @@ public class User implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
+    public User(Integer id, String username, String password, String nickname, String sex, String mobile, String qq, String wexin, String email, String headIcon, String bgImage, Date createTime, Date updateTime, Date lastLoginTime, Byte enabled, Byte accountNonExpired, Byte accountNonLocked, Byte credentialsNonExpired, String token) {
+        this.id = id;
+        this.username = username;
+        this.password = password;
+        this.nickname = nickname;
+        this.sex = sex;
+        this.mobile = mobile;
+        this.qq = qq;
+        this.wexin = wexin;
+        this.email = email;
+        this.headIcon = headIcon;
+        this.bgImage = bgImage;
+        this.createTime = createTime;
+        this.updateTime = updateTime;
+        this.lastLoginTime = lastLoginTime;
+        this.enabled = enabled;
+        this.accountNonExpired = accountNonExpired;
+        this.accountNonLocked = accountNonLocked;
+        this.credentialsNonExpired = credentialsNonExpired;
+        this.token = token;
+    }
+
+    public User() {
+        super();
+    }
+
     public Integer getId() {
         return id;
     }
@@ -96,11 +123,11 @@ public class User implements Serializable {
         this.nickname = nickname;
     }
 
-    public Byte getSex() {
+    public String getSex() {
         return sex;
     }
 
-    public void setSex(Byte sex) {
+    public void setSex(String sex) {
         this.sex = sex;
     }
 

@@ -4,8 +4,8 @@
   <select id="selectPermissionsByRequestPath" resultType="com.todolist_test2.demo.mbg.model.Permission">
     SELECT p.id, p.code, p.name
     FROM s_permission p
-    LEFT JOIN r_request_path_permission rpp on p.id = rpp.permission_id
-    LEFT JOIN s_request_path rp on rp.id = rpp.request_path_id
+           LEFT JOIN r_api_permission rpp on p.id = rpp.permission_id
+           LEFT JOIN s_api rp on rp.id = rpp.api_id
     WHERE rp.url = #{requestPath}
   </select>
 </mapper>

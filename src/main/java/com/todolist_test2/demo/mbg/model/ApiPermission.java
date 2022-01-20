@@ -4,24 +4,24 @@ import io.swagger.annotations.ApiModelProperty;
 
 import java.io.Serializable;
 
-public class RolePermission implements Serializable {
+public class ApiPermission implements Serializable {
     private Integer id;
 
-    @ApiModelProperty(value = "角色ID")
-    private Integer roleId;
+    @ApiModelProperty(value = "请求路径ID")
+    private Integer requestPathId;
 
     @ApiModelProperty(value = "权限ID")
     private Integer permissionId;
 
     private static final long serialVersionUID = 1L;
 
-    public RolePermission(Integer id, Integer roleId, Integer permissionId) {
+    public ApiPermission(Integer id, Integer requestPathId, Integer permissionId) {
         this.id = id;
-        this.roleId = roleId;
+        this.requestPathId = requestPathId;
         this.permissionId = permissionId;
     }
 
-    public RolePermission() {
+    public ApiPermission() {
         super();
     }
 
@@ -33,12 +33,12 @@ public class RolePermission implements Serializable {
         this.id = id;
     }
 
-    public Integer getRoleId() {
-        return roleId;
+    public Integer getRequestPathId() {
+        return requestPathId;
     }
 
-    public void setRoleId(Integer roleId) {
-        this.roleId = roleId;
+    public void setRequestPathId(Integer requestPathId) {
+        this.requestPathId = requestPathId;
     }
 
     public Integer getPermissionId() {
@@ -56,7 +56,7 @@ public class RolePermission implements Serializable {
         sb.append(" [");
         sb.append("Hash = ").append(hashCode());
         sb.append(", id=").append(id);
-        sb.append(", roleId=").append(roleId);
+        sb.append(", requestPathId=").append(requestPathId);
         sb.append(", permissionId=").append(permissionId);
         sb.append(", serialVersionUID=").append(serialVersionUID);
         sb.append("]");

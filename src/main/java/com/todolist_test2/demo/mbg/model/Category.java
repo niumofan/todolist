@@ -1,6 +1,7 @@
 package com.todolist_test2.demo.mbg.model;
 
 import io.swagger.annotations.ApiModelProperty;
+
 import java.io.Serializable;
 
 public class Category implements Serializable {
@@ -13,6 +14,16 @@ public class Category implements Serializable {
     private Integer name;
 
     private static final long serialVersionUID = 1L;
+
+    public Category(Integer id, Integer userId, Integer name) {
+        this.id = id;
+        this.userId = userId;
+        this.name = name;
+    }
+
+    public Category() {
+        super();
+    }
 
     public Integer getId() {
         return id;

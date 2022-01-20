@@ -1,0 +1,46 @@
+package com.todolist_test2.demo.controller;
+
+import com.todolist_test2.demo.dto.todo.AddTodoDTO;
+import com.todolist_test2.demo.dto.todo.DeleteTodoDTO;
+import com.todolist_test2.demo.dto.todo.ModifyTodoDTO;
+import com.todolist_test2.demo.dto.todo.QueryTodoDTO;
+import com.todolist_test2.demo.mbg.model.Todo;
+import com.todolist_test2.demo.vo.JsonResult;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+
+/**
+ * @author nmf
+ * @date 2021年11月10日 11:44
+ */
+@RestController
+@RequestMapping("/todo")
+public class TodoController {
+
+    @PostMapping("addTodo")
+    public JsonResult<Todo> addTodo(@RequestBody @Validated AddTodoDTO todoDTO) {
+        System.out.println(todoDTO);
+        return null;
+    }
+
+    @PostMapping("deleteTodo")
+    public JsonResult<Boolean> deleteTodo(@RequestBody @Validated DeleteTodoDTO todoDTO) {
+        System.out.println(todoDTO);
+        return null;
+    }
+
+    @PostMapping("modifyTodo")
+    public JsonResult<Todo> modifyTodo(@RequestBody @Validated ModifyTodoDTO todoDTO) {
+        System.out.println(todoDTO);
+        return null;
+    }
+
+    @PostMapping("queryTodos")
+    public JsonResult<List<Todo>> getTodos(@RequestBody @Validated QueryTodoDTO todoDTO) {
+        System.out.println(todoDTO);
+        return null;
+    }
+}

@@ -1,6 +1,7 @@
 package com.todolist_test2.demo.mbg.model;
 
 import io.swagger.annotations.ApiModelProperty;
+
 import java.io.Serializable;
 
 public class Permission implements Serializable {
@@ -14,6 +15,16 @@ public class Permission implements Serializable {
     private String name;
 
     private static final long serialVersionUID = 1L;
+
+    public Permission(Integer id, String code, String name) {
+        this.id = id;
+        this.code = code;
+        this.name = name;
+    }
+
+    public Permission() {
+        super();
+    }
 
     public Integer getId() {
         return id;
