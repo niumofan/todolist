@@ -1,5 +1,6 @@
 package com.todolist_test2.demo.mbg.model;
 
+import com.todolist_test2.demo.enums.TodoState;
 import io.swagger.annotations.ApiModelProperty;
 
 import java.io.Serializable;
@@ -128,6 +129,10 @@ public class Todo implements Serializable {
 
     public void setState(Byte state) {
         this.state = state;
+    }
+
+    public void setState(TodoState state) {
+        this.state = state.getCode().byteValue();
     }
 
     public String getSubtodos() {

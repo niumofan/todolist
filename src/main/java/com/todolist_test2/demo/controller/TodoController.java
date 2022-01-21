@@ -5,6 +5,8 @@ import com.todolist_test2.demo.dto.todo.DeleteTodoDTO;
 import com.todolist_test2.demo.dto.todo.ModifyTodoDTO;
 import com.todolist_test2.demo.dto.todo.QueryTodoDTO;
 import com.todolist_test2.demo.mbg.model.Todo;
+import com.todolist_test2.demo.service.TodoService;
+import com.todolist_test2.demo.utils.ResultTool;
 import com.todolist_test2.demo.vo.JsonResult;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
@@ -20,10 +22,13 @@ import java.util.List;
 @RequestMapping("/todo")
 public class TodoController {
 
+    @Autowired
+    private TodoService todoService;
+
     @PostMapping("addTodo")
-    public JsonResult<Todo> addTodo(@RequestBody @Validated AddTodoDTO todoDTO) {
+    public JsonResult<List<Todo>> addTodo(@RequestBody @Validated AddTodoDTO todoDTO) {
         System.out.println(todoDTO);
-        return null;
+        return ResultTool.success(todoService.addTodo(todoDTO));
     }
 
     @PostMapping("deleteTodo")

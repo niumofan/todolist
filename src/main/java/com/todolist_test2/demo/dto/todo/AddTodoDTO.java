@@ -29,7 +29,7 @@ public class AddTodoDTO {
     private String description;
 
     @Range(min=1, max=3)
-    private Integer priority;
+    private Byte priority;
 
     @Future
     private Date startTime;
@@ -37,7 +37,6 @@ public class AddTodoDTO {
     @Future
     private Date endTime;
 
-    @Future
     private Date alarmTime;
 
     private String subtodos;
