@@ -78,7 +78,8 @@ CREATE TABLE `b_category` (
     id INT PRIMARY KEY AUTO_INCREMENT,
     user_id INT NOT NULL COMMENT '用户ID',
     name VARCHAR(10) NOT NULL COMMENT '分类名',
-    INDEX(user_id)
+    INDEX(user_id),
+    UNIQUE(user_id, name)
 ) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '分类表' ROW_FORMAT = Dynamic;
 
 

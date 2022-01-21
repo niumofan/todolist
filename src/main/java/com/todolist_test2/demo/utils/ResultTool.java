@@ -17,11 +17,11 @@ public class ResultTool {
         return new JsonResult<>(true, data);
     }
 
-    public static JsonResult<Object> fail() {
-        return new JsonResult<>(false);
+    public static JsonResult<String> fail(String msg) {
+        return new JsonResult<>(false, msg);
     }
 
-    public static JsonResult<ResultCode> fail(ResultCode resultEnum) {
+    public static JsonResult<Object> fail(ResultCode resultEnum) {
         return new JsonResult<>(false, resultEnum);
     }
 }

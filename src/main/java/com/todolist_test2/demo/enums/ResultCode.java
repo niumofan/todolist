@@ -10,7 +10,7 @@ public enum ResultCode {
     SUCCESS(200, "成功"),
 
     /* 默认失败 */
-    COMMON_FAIL(999, "失败"),
+    COMMON_FAIL(999, "未知错误"),
 
     /* 参数错误：1000～1999 */
     PARAM_NOT_VALID(1001, "参数无效"),
@@ -30,7 +30,13 @@ public enum ResultCode {
     USER_ACCOUNT_USE_BY_OTHERS(2009, "账号下线"),
 
     /* 业务错误 */
-    NO_PERMISSION(3001, "没有权限");
+    NO_PERMISSION(3001, "没有权限"),
+
+    /* 数据库错误 */
+    DUPLICATE_ENTRY(4001, "存在重复项"),
+
+    ;
+
 
 
     private Integer code;

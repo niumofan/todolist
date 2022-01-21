@@ -1,9 +1,9 @@
 package com.todolist_test2.demo.dto.category;
 
-import com.sun.istack.internal.NotNull;
 import lombok.Data;
 
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 
 /**
  * @author nmf
@@ -13,8 +13,13 @@ import javax.validation.constraints.NotBlank;
 public class ModifyCategoryDTO {
 
     @NotNull
-    private Integer categoryId;
+    private Integer id;
+
+    @NotNull
+    private Integer userId;
 
     @NotBlank
     private String name;
+
+    public ModifyCategoryDTO(){}
 }

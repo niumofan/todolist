@@ -22,7 +22,7 @@ public class CustomizeAuthenticationEntryPoint implements AuthenticationEntryPoi
 
     @Override
     public void commence(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, AuthenticationException e) throws IOException, ServletException {
-        JsonResult<ResultCode> result = ResultTool.fail(ResultCode.USER_NOT_LOGIN);
+        JsonResult<Object> result = ResultTool.fail(ResultCode.USER_NOT_LOGIN);
         httpServletResponse.setContentType("text/json;charset=utf-8");
         httpServletResponse.getWriter().write(JSON.toJSONString(result));
     }

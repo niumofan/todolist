@@ -3,8 +3,12 @@ package com.todolist_test2.demo.controller;
 import com.todolist_test2.demo.dto.category.AddCategoryDTO;
 import com.todolist_test2.demo.dto.category.DelCategoryDTO;
 import com.todolist_test2.demo.dto.category.ModifyCategoryDTO;
+import com.todolist_test2.demo.dto.category.QueryCategoryDTO;
 import com.todolist_test2.demo.mbg.model.Category;
+import com.todolist_test2.demo.service.CategoryService;
+import com.todolist_test2.demo.utils.ResultTool;
 import com.todolist_test2.demo.vo.JsonResult;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -21,31 +25,37 @@ import java.util.List;
 @RestController
 public class CategoryController {
 
+    @Autowired
+    private CategoryService categoryService;
+
     /* 添加一个分类 */
     @PostMapping("addCategory")
     public JsonResult<Category> addCatrgory(@RequestBody @Validated AddCategoryDTO addCategoryDTO) {
         System.out.println(addCategoryDTO);
-        return null;
+        return ResultTool.success(categoryService.addCategory(addCategoryDTO));
     }
 
     /* 删除某些分类 */
-    @PostMapping("deleteCategory")
-    public JsonResult<Boolean> deleteCategory(@RequestBody @Validated DelCategoryDTO delCategoryDTO) {
+    @PostMapping("deleteCategories")
+    public JsonResult<String> deleteCategory(@RequestBody @Validated DelCategoryDTO delCategoryDTO) {
         System.out.println(delCategoryDTO);
-        return null;
+        int n = categoryService.deleteCategory(delCategoryDTO);
+        String msg = "删除了" + n + "项待办";
+        return ResultTool.success(msg);
     }
 
     /* 修改分类信息 */
     @PostMapping("modifyCategory")
     public JsonResult<Category> modifyCategory(@RequestBody @Validated ModifyCategoryDTO updateCategoryDTO) {
         System.out.println(updateCategoryDTO);
-        return null;
+        Category category = categoryService.modifyCategory(updateCategoryDTO);
+        return ResultTool.success(category);
     }
 
     /* 获取某个用户的全部分类 */
     @PostMapping("queryCategories")
-    public JsonResult<List<Category>> queryCategories(@RequestBody @Validated Integer userId) {
-        System.out.println(userId);
-        return null;
+    public JsonResult<List<Category>> queryCategories(@RequestBody @Validated QueryCategoryDTO categoryDTO) {
+        System.out.println(categoryDTO);
+        return ResultTool.success(categoryService.queryCategories(categoryDTO));
     }
 }

@@ -21,7 +21,7 @@ import java.io.IOException;
 public class CustomizeAccessDeniedHandler implements AccessDeniedHandler {
     @Override
     public void handle(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, AccessDeniedException e) throws IOException, ServletException {
-        JsonResult<ResultCode> result = ResultTool.fail(ResultCode.NO_PERMISSION);
+        JsonResult<Object> result = ResultTool.fail(ResultCode.NO_PERMISSION);
         httpServletResponse.setContentType("text/json;charset=utf-8");
         httpServletResponse.getWriter().write(JSON.toJSONString(result));
     }
