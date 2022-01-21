@@ -77,7 +77,7 @@ DROP TABLE IF EXISTS `b_category`;
 CREATE TABLE `b_category` (
     id INT PRIMARY KEY AUTO_INCREMENT,
     user_id INT NOT NULL COMMENT '用户ID',
-    name INT NOT NULL COMMENT '分类名',
+    name VARCHAR(10) NOT NULL COMMENT '分类名',
     INDEX(user_id)
 ) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '分类表' ROW_FORMAT = Dynamic;
 
@@ -90,8 +90,8 @@ CREATE TABLE `b_todo` (
     category_name VARCHAR(16) NOT NULL DEFAULT '无分类' COMMENT '分类名',
     `description` VARCHAR(32) NOT NULL COMMENT '内容',
     priority TINYINT NOT NULL COMMENT '优先级。1->不紧急；2->一般紧急；3->非常紧急',
-    start_time DATE NOT NULL COMMENT '待办生效日期',
-    alarm_time TIME NOT NULL COMMENT '提醒时间',
+    start_time DATETIME NOT NULL COMMENT '待办生效日期',
+    alarm_time DATETIME NOT NULL COMMENT '提醒时间',
     state TINYINT NOT NULL COMMENT '状态。1->待办: 到期前还没做; 2->完成: 到期前完成了; 3->失败: 到期时没有完成',
     subtodos VARCHAR(1024) COMMENT '子待办事项，以json形式存储([{state:1, content:"todo1"},{...}])',
     `repeat` INT NOT NULL DEFAULT 0 COMMENT '重复标识',

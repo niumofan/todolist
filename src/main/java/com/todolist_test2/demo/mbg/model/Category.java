@@ -11,11 +11,11 @@ public class Category implements Serializable {
     private Integer userId;
 
     @ApiModelProperty(value = "分类名")
-    private Integer name;
+    private String name;
 
     private static final long serialVersionUID = 1L;
 
-    public Category(Integer id, Integer userId, Integer name) {
+    public Category(Integer id, Integer userId, String name) {
         this.id = id;
         this.userId = userId;
         this.name = name;
@@ -41,11 +41,11 @@ public class Category implements Serializable {
         this.userId = userId;
     }
 
-    public Integer getName() {
+    public String getName() {
         return name;
     }
 
-    public void setName(Integer name) {
+    public void setName(String name) {
         this.name = name;
     }
 
