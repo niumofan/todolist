@@ -14,4 +14,6 @@ public interface TodoDao {
 
     int insertTodos(List<Todo> todos);
 
+    int deleteTodos(List<Integer> todoIds);
+
 }

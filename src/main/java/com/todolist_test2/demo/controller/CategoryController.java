@@ -37,11 +37,10 @@ public class CategoryController {
 
     /* 删除某些分类 */
     @PostMapping("deleteCategories")
-    public JsonResult<String> deleteCategory(@RequestBody @Validated DelCategoryDTO delCategoryDTO) {
+    public JsonResult<Integer> deleteCategory(@RequestBody @Validated DelCategoryDTO delCategoryDTO) {
         System.out.println(delCategoryDTO);
         int n = categoryService.deleteCategory(delCategoryDTO);
-        String msg = "删除了" + n + "项待办";
-        return ResultTool.success(msg);
+        return ResultTool.success(n);
     }
 
     /* 修改分类信息 */

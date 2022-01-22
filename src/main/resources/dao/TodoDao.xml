@@ -20,4 +20,12 @@
         )
       </foreach>
   </insert>
+  
+  <delete id="deleteTodos" parameterType="java.lang.Integer">
+    DELETE FROM b_todo
+    WHERE b_todo.state=1 AND b_todo.id IN
+    <foreach item="id" collection="list" open="(" separator="," close=")">
+      #{id}
+    </foreach>
+  </delete>
 </mapper>

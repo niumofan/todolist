@@ -7,12 +7,15 @@ import com.todolist_test2.demo.dto.category.DelCategoryDTO;
 import com.todolist_test2.demo.dto.category.ModifyCategoryDTO;
 import com.todolist_test2.demo.dto.category.QueryCategoryDTO;
 import com.todolist_test2.demo.dto.todo.AddTodoDTO;
+import com.todolist_test2.demo.dto.todo.DeleteTodoDTO;
+import com.todolist_test2.demo.dto.todo.ModifyTodoDTO;
 import com.todolist_test2.demo.entity.Subtodo;
 import com.todolist_test2.demo.enums.TodoState;
 import com.todolist_test2.demo.mbg.mapper.TodoMapper;
 import com.todolist_test2.demo.mbg.model.Category;
 import com.todolist_test2.demo.mbg.model.CategoryExample;
 import com.todolist_test2.demo.mbg.model.Todo;
+import com.todolist_test2.demo.mbg.model.TodoExample;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -33,6 +36,7 @@ public class TodoService {
     @Autowired
     private TodoDao todoDao;
 
+    /* 添加待办 */
     public List<Todo> addTodo(AddTodoDTO todoDTO) {
         List<Todo> todos = new ArrayList<>();
 
@@ -101,17 +105,52 @@ public class TodoService {
         return todos;
     }
 
-//    @Transactional
-//    public int deleteCategory(DelCategoryDTO categoryDTO) {
+    @Transactional
+    public int deleteTodo(DeleteTodoDTO todoDTO) {
 //        return categoryDao.deleteCategoryByIds(categoryDTO.getCategoryIds());
-//    }
-//
-//    public Category modifyCategory(ModifyCategoryDTO categoryDTO) {
-//        Category category = new Category(categoryDTO.getId(), categoryDTO.getUserId(), categoryDTO.getName());
-//        categoryMapper.updateByPrimaryKey(category);
-//        return category;
-//    }
-//
+        int res;
+        if (todoDTO.getRepeat() != 0) {
+            TodoExample example = new TodoExample();
+            example.createCriteria().
+                    andUserIdEqualTo(todoDTO.getUserId()).
+                    andRepeatEqualTo(todoDTO.getRepeat()).
+                    andStateEqualTo(TodoState.TODO.getCode().byteValue());
+            res = todoMapper.deleteByExample(example);
+        } else {
+            TodoExample example = new TodoExample();
+            example.createCriteria().
+                    andIdEqualTo(todoDTO.getId()).
+                    andStateEqualTo(TodoState.TODO.getCode().byteValue());
+            res = todoMapper.deleteByExample(example);
+        }
+        return res;
+    }
+
+    @Transactional
+    public Integer modifyTodo(ModifyTodoDTO todoDTO) {
+        Todo todo = new Todo();
+        BeanUtils.copyProperties(todoDTO, todo);
+        todo.setUserId(null);
+        todo.setRepeat(null);
+        todo.setId(null);
+
+        if (todoDTO.getRepeat() != 0) {
+            TodoExample example = new TodoExample();
+            example.createCriteria().
+                    andStateEqualTo(TodoState.TODO.getCode().byteValue()).
+                    andUserIdEqualTo(todoDTO.getUserId()).
+                    andRepeatEqualTo(todoDTO.getRepeat());
+            todoMapper.updateByExampleSelective(todo, example);
+        } else {
+            TodoExample example = new TodoExample();
+            example.createCriteria().
+                    andIdEqualTo(todoDTO.getId()).
+                    andStateEqualTo(TodoState.TODO.getCode().byteValue());
+            todoMapper.updateByExampleSelective(todo,example);
+        }
+        return 0;
+    }
+
 //    public List<Category> queryCategories(QueryCategoryDTO categoryDTO) {
 //        CategoryExample example = new CategoryExample();
 //        example.createCriteria().andUserIdEqualTo(categoryDTO.getUserId());

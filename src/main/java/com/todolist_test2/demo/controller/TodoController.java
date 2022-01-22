@@ -32,15 +32,17 @@ public class TodoController {
     }
 
     @PostMapping("deleteTodo")
-    public JsonResult<Boolean> deleteTodo(@RequestBody @Validated DeleteTodoDTO todoDTO) {
+    public JsonResult<Integer> deleteTodo(@RequestBody @Validated DeleteTodoDTO todoDTO) {
         System.out.println(todoDTO);
-        return null;
+        int i = todoService.deleteTodo(todoDTO);
+        return ResultTool.success(i);
     }
 
     @PostMapping("modifyTodo")
-    public JsonResult<Todo> modifyTodo(@RequestBody @Validated ModifyTodoDTO todoDTO) {
+    public JsonResult<Integer> modifyTodo(@RequestBody @Validated ModifyTodoDTO todoDTO) {
         System.out.println(todoDTO);
-        return null;
+        Integer i = todoService.modifyTodo(todoDTO);
+        return ResultTool.success(i);
     }
 
     @PostMapping("queryTodos")

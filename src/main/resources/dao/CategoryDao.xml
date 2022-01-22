@@ -3,7 +3,7 @@
 <mapper namespace="com.todolist_test2.demo.dao.CategoryDao">
   <delete id="deleteCategoryByIds" parameterType="java.lang.Integer">
     DELETE FROM b_category
-    WHERE b_category.user_id = #{userId} AND b_category.id IN
+    WHERE b_category.id IN
       <foreach item="id" collection="list" open="(" separator="," close=")">
         #{id}
       </foreach>

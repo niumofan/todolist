@@ -18,7 +18,10 @@ import java.util.List;
 public class ModifyTodoDTO {
 
     @NotNull
-    private Integer todoId;
+    private Integer id;
+
+    @NotNull
+    private Integer userId;
 
     private Integer categoryId;
 
@@ -30,14 +33,14 @@ public class ModifyTodoDTO {
     @Range(min=1, max=3)
     private Integer priority;
 
-    @Future
-    private Date startTime;
+//    @Future
+//    private Date startTime;
 
     @Future
     private Date alarmTime;
 
     private String subtodos;
 
-    @Min(1)
-    private Byte repeat;
+    @NotNull
+    private Integer repeat;
 }
