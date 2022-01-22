@@ -45,7 +45,7 @@ DROP TABLE IF EXISTS `s_api`;
 CREATE TABLE `s_api` (
     id INT PRIMARY KEY AUTO_INCREMENT COMMENT '请求路径ID',
     url VARCHAR(255) NOT NULL COMMENT '请求路径',
-    `description` VARCHAR(255) NOT NULL COMMENT '功能描述'
+    `content` VARCHAR(255) NOT NULL COMMENT '功能描述'
 ) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '请求路径信息表' ROW_FORMAT = Dynamic;
 
 
@@ -82,14 +82,13 @@ CREATE TABLE `b_category` (
     UNIQUE(user_id, name)
 ) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '分类表' ROW_FORMAT = Dynamic;
 
-
 DROP TABLE IF EXISTS `b_todo`;
 CREATE TABLE `b_todo` (
     id INT PRIMARY KEY AUTO_INCREMENT,
     user_id INT NOT NULL COMMENT '用户ID',
     category_id INT NOT NULL DEFAULT 0 COMMENT '分类ID',
     category_name VARCHAR(16) NOT NULL DEFAULT '无分类' COMMENT '分类名',
-    `description` VARCHAR(32) NOT NULL COMMENT '内容',
+    `content` VARCHAR(32) NOT NULL COMMENT '内容',
     priority TINYINT NOT NULL COMMENT '优先级。1->不紧急；2->一般紧急；3->非常紧急',
     start_time DATETIME NOT NULL COMMENT '待办生效日期',
     alarm_time DATETIME COMMENT '提醒时间',
@@ -114,7 +113,7 @@ DROP TABLE IF EXISTS `b_subtask`;
 # CREATE TABLE `b_subtask` (
 #     id INT PRIMARY KEY AUTO_INCREMENT,
 #     task_id INT NOT NULL COMMENT '父任务ID',
-#     `description` VARCHAR(32) NOT NULL COMMENT '内容',
+#     `content` VARCHAR(32) NOT NULL COMMENT '内容',
 #     priority TINYINT NOT NULL DEFAULT 1 COMMENT '优先级。1->不紧急；2->一般紧急；3->非常紧急',
 #     state TINYINT NOT NULL DEFAULT 1 COMMENT '状态。1->待办: 到期前还没做; 2->完成: 到期前完成了; 3->失败: 到期时没有完成'
 # ) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '子待办事项表' ROW_FORMAT = Dynamic;
@@ -138,7 +137,7 @@ VALUES
        (3, 'task:get', '获取待办'),
        (4, 'user:get', '查看用户');
 
-INSERT INTO s_api(id, url, description)
+INSERT INTO s_api(id, url, content)
 VALUES
        (1, '/login', '登录'),
        (2, '/user/register', '注册'),

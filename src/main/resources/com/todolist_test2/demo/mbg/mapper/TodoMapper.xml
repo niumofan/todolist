@@ -7,7 +7,7 @@
       <arg column="user_id" javaType="java.lang.Integer" jdbcType="INTEGER" />
       <arg column="category_id" javaType="java.lang.Integer" jdbcType="INTEGER" />
       <arg column="category_name" javaType="java.lang.String" jdbcType="VARCHAR" />
-      <arg column="description" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="content" javaType="java.lang.String" jdbcType="VARCHAR" />
       <arg column="priority" javaType="java.lang.Byte" jdbcType="TINYINT" />
       <arg column="start_time" javaType="java.util.Date" jdbcType="DATE" />
       <arg column="alarm_time" javaType="java.util.Date" jdbcType="TIME" />
@@ -75,8 +75,8 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, user_id, category_id, category_name, description, priority, start_time, alarm_time, 
-    state, subtodos, repeat
+    id, user_id, category_id, category_name, content, priority, start_time, alarm_time,
+    state, subtodos, `repeat`
   </sql>
   <select id="selectByExample" parameterType="com.todolist_test2.demo.mbg.model.TodoExample" resultMap="BaseResultMap">
     select
@@ -113,11 +113,11 @@
       SELECT LAST_INSERT_ID()
     </selectKey>
     insert into b_todo (user_id, category_id, category_name, 
-      description, priority, start_time, 
+      content, priority, start_time,
       alarm_time, state, subtodos, 
-      repeat)
+      `repeat`)
     values (#{userId,jdbcType=INTEGER}, #{categoryId,jdbcType=INTEGER}, #{categoryName,jdbcType=VARCHAR}, 
-      #{description,jdbcType=VARCHAR}, #{priority,jdbcType=TINYINT}, #{startTime,jdbcType=DATE}, 
+      #{content,jdbcType=VARCHAR}, #{priority,jdbcType=TINYINT}, #{startTime,jdbcType=DATE},
       #{alarmTime,jdbcType=TIME}, #{state,jdbcType=TINYINT}, #{subtodos,jdbcType=VARCHAR}, 
       #{repeat,jdbcType=INTEGER})
   </insert>
@@ -136,8 +136,8 @@
       <if test="categoryName != null">
         category_name,
       </if>
-      <if test="description != null">
-        description,
+      <if test="content != null">
+        content,
       </if>
       <if test="priority != null">
         priority,
@@ -155,7 +155,7 @@
         subtodos,
       </if>
       <if test="repeat != null">
-        repeat,
+        `repeat`,
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
@@ -168,8 +168,8 @@
       <if test="categoryName != null">
         #{categoryName,jdbcType=VARCHAR},
       </if>
-      <if test="description != null">
-        #{description,jdbcType=VARCHAR},
+      <if test="content != null">
+        #{content,jdbcType=VARCHAR},
       </if>
       <if test="priority != null">
         #{priority,jdbcType=TINYINT},
@@ -212,8 +212,8 @@
       <if test="record.categoryName != null">
         category_name = #{record.categoryName,jdbcType=VARCHAR},
       </if>
-      <if test="record.description != null">
-        description = #{record.description,jdbcType=VARCHAR},
+      <if test="record.content != null">
+        content = #{record.content,jdbcType=VARCHAR},
       </if>
       <if test="record.priority != null">
         priority = #{record.priority,jdbcType=TINYINT},
@@ -231,7 +231,7 @@
         subtodos = #{record.subtodos,jdbcType=VARCHAR},
       </if>
       <if test="record.repeat != null">
-        repeat = #{record.repeat,jdbcType=INTEGER},
+        `repeat` = #{record.repeat,jdbcType=INTEGER},
       </if>
     </set>
     <if test="_parameter != null">
@@ -244,13 +244,13 @@
       user_id = #{record.userId,jdbcType=INTEGER},
       category_id = #{record.categoryId,jdbcType=INTEGER},
       category_name = #{record.categoryName,jdbcType=VARCHAR},
-      description = #{record.description,jdbcType=VARCHAR},
+      content = #{record.content,jdbcType=VARCHAR},
       priority = #{record.priority,jdbcType=TINYINT},
       start_time = #{record.startTime,jdbcType=DATE},
       alarm_time = #{record.alarmTime,jdbcType=TIME},
       state = #{record.state,jdbcType=TINYINT},
       subtodos = #{record.subtodos,jdbcType=VARCHAR},
-      repeat = #{record.repeat,jdbcType=INTEGER}
+      `repeat` = #{record.repeat,jdbcType=INTEGER}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -267,8 +267,8 @@
       <if test="categoryName != null">
         category_name = #{categoryName,jdbcType=VARCHAR},
       </if>
-      <if test="description != null">
-        description = #{description,jdbcType=VARCHAR},
+      <if test="content != null">
+        content = #{content,jdbcType=VARCHAR},
       </if>
       <if test="priority != null">
         priority = #{priority,jdbcType=TINYINT},
@@ -286,7 +286,7 @@
         subtodos = #{subtodos,jdbcType=VARCHAR},
       </if>
       <if test="repeat != null">
-        repeat = #{repeat,jdbcType=INTEGER},
+        `repeat` = #{repeat,jdbcType=INTEGER},
       </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
@@ -296,13 +296,13 @@
     set user_id = #{userId,jdbcType=INTEGER},
       category_id = #{categoryId,jdbcType=INTEGER},
       category_name = #{categoryName,jdbcType=VARCHAR},
-      description = #{description,jdbcType=VARCHAR},
+      content = #{content,jdbcType=VARCHAR},
       priority = #{priority,jdbcType=TINYINT},
       start_time = #{startTime,jdbcType=DATE},
       alarm_time = #{alarmTime,jdbcType=TIME},
       state = #{state,jdbcType=TINYINT},
       subtodos = #{subtodos,jdbcType=VARCHAR},
-      repeat = #{repeat,jdbcType=INTEGER}
+      `repeat` = #{repeat,jdbcType=INTEGER}
     where id = #{id,jdbcType=INTEGER}
   </update>
 </mapper>

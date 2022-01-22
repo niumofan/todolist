@@ -12,14 +12,14 @@ public class Api implements Serializable {
     private String url;
 
     @ApiModelProperty(value = "功能描述")
-    private String description;
+    private String content;
 
     private static final long serialVersionUID = 1L;
 
-    public Api(Integer id, String url, String description) {
+    public Api(Integer id, String url, String content) {
         this.id = id;
         this.url = url;
-        this.description = description;
+        this.content = content;
     }
 
     public Api() {
@@ -42,12 +42,12 @@ public class Api implements Serializable {
         this.url = url;
     }
 
-    public String getDescription() {
-        return description;
+    public String getContent() {
+        return content;
     }
 
-    public void setDescription(String description) {
-        this.description = description;
+    public void setContent(String content) {
+        this.content = content;
     }
 
     @Override
@@ -58,7 +58,7 @@ public class Api implements Serializable {
         sb.append("Hash = ").append(hashCode());
         sb.append(", id=").append(id);
         sb.append(", url=").append(url);
-        sb.append(", description=").append(description);
+        sb.append(", content=").append(content);
         sb.append(", serialVersionUID=").append(serialVersionUID);
         sb.append("]");
         return sb.toString();

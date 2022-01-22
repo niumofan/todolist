@@ -10,15 +10,15 @@ import lombok.Data;
 @Data
 public class Subtodo {
 
-    private String description;
+    private String content;
     private Byte state;
 
-    public String getDescription() {
-        return description;
+    public String getContent() {
+        return content;
     }
 
-    public void setDescription(String description) {
-        this.description = description;
+    public void setContent(String content) {
+        this.content = content;
     }
 
     public Byte getState() {

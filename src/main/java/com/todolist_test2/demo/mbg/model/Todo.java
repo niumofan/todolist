@@ -19,7 +19,7 @@ public class Todo implements Serializable {
     private String categoryName;
 
     @ApiModelProperty(value = "内容")
-    private String description;
+    private String content;
 
     @ApiModelProperty(value = "优先级。1->不紧急；2->一般紧急；3->非常紧急")
     private Byte priority;
@@ -41,12 +41,12 @@ public class Todo implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    public Todo(Integer id, Integer userId, Integer categoryId, String categoryName, String description, Byte priority, Date startTime, Date alarmTime, Byte state, String subtodos, Integer repeat) {
+    public Todo(Integer id, Integer userId, Integer categoryId, String categoryName, String content, Byte priority, Date startTime, Date alarmTime, Byte state, String subtodos, Integer repeat) {
         this.id = id;
         this.userId = userId;
         this.categoryId = categoryId;
         this.categoryName = categoryName;
-        this.description = description;
+        this.content = content;
         this.priority = priority;
         this.startTime = startTime;
         this.alarmTime = alarmTime;
@@ -91,12 +91,12 @@ public class Todo implements Serializable {
         this.categoryName = categoryName;
     }
 
-    public String getDescription() {
-        return description;
+    public String getContent() {
+        return content;
     }
 
-    public void setDescription(String description) {
-        this.description = description;
+    public void setContent(String content) {
+        this.content = content;
     }
 
     public Byte getPriority() {
@@ -161,7 +161,7 @@ public class Todo implements Serializable {
         sb.append(", userId=").append(userId);
         sb.append(", categoryId=").append(categoryId);
         sb.append(", categoryName=").append(categoryName);
-        sb.append(", description=").append(description);
+        sb.append(", content=").append(content);
         sb.append(", priority=").append(priority);
         sb.append(", startTime=").append(startTime);
         sb.append(", alarmTime=").append(alarmTime);

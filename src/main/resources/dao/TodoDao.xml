@@ -3,14 +3,14 @@
 <mapper namespace="com.todolist_test2.demo.dao.TodoDao">
   <insert id="insertTodos" parameterType="com.todolist_test2.demo.mbg.model.Todo" useGeneratedKeys="true" keyProperty="id">
     INSERT INTO
-        b_todo(user_id, category_id, category_name, `description`, priority, start_time, alarm_time, state, subtodos, `repeat`)
+        b_todo(user_id, category_id, category_name, `content`, priority, start_time, alarm_time, state, subtodos, `repeat`)
     VALUES
       <foreach collection="todos" item="todo" separator=",">
         (
         #{todo.userId},
         #{todo.categoryId},
         #{todo.categoryName},
-        #{todo.description},
+        #{todo.content},
         #{todo.priority},
         #{todo.startTime},
         #{todo.alarmTime},

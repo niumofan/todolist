@@ -26,7 +26,7 @@ public class AddTodoDTO {
     private String categoryName;
 
     @NotBlank
-    private String description;
+    private String content;
 
     @Range(min=1, max=3)
     private Byte priority;
