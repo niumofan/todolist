@@ -9,6 +9,7 @@ import com.todolist_test2.demo.dto.category.QueryCategoryDTO;
 import com.todolist_test2.demo.dto.todo.AddTodoDTO;
 import com.todolist_test2.demo.dto.todo.DeleteTodoDTO;
 import com.todolist_test2.demo.dto.todo.ModifyTodoDTO;
+import com.todolist_test2.demo.dto.todo.QueryTodoDTO;
 import com.todolist_test2.demo.entity.Subtodo;
 import com.todolist_test2.demo.enums.TodoState;
 import com.todolist_test2.demo.mbg.mapper.TodoMapper;
@@ -151,9 +152,7 @@ public class TodoService {
         return 0;
     }
 
-//    public List<Category> queryCategories(QueryCategoryDTO categoryDTO) {
-//        CategoryExample example = new CategoryExample();
-//        example.createCriteria().andUserIdEqualTo(categoryDTO.getUserId());
-//        return categoryMapper.selectByExample(example);
-//    }
+    public List<Todo> queryTodos(QueryTodoDTO todoDTO) {
+        return todoDao.queryTodos(todoDTO);
+    }
 }

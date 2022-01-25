@@ -11,13 +11,15 @@ import java.util.Date;
 @Data
 public class QueryTodoDTO {
 
-    private Integer todoId;
+    private Integer id;
 
     private Integer categoryId;
 
     private Integer userId;
 
     private Integer priority;
+
+    private Integer state;
 
     private Date startTime;
 

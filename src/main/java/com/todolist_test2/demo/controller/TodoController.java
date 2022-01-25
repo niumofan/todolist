@@ -45,9 +45,9 @@ public class TodoController {
         return ResultTool.success(i);
     }
 
-    @PostMapping("queryTodos")
+    @PostMapping("queryTodo")
     public JsonResult<List<Todo>> getTodos(@RequestBody @Validated QueryTodoDTO todoDTO) {
         System.out.println(todoDTO);
-        return null;
+        return ResultTool.success(todoService.queryTodos(todoDTO));
     }
 }

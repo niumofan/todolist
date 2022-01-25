@@ -1,5 +1,6 @@
 package com.todolist_test2.demo.dao;
 
+import com.todolist_test2.demo.dto.todo.QueryTodoDTO;
 import com.todolist_test2.demo.mbg.model.Todo;
 import org.apache.ibatis.annotations.Mapper;
 
@@ -16,4 +17,5 @@ public interface TodoDao {
 
     int deleteTodos(List<Integer> todoIds);
 
+    List<Todo> queryTodos(QueryTodoDTO todoDTO);
 }

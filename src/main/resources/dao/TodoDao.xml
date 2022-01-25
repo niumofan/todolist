@@ -28,4 +28,33 @@
       #{id}
     </foreach>
   </delete>
+  
+  <select id="queryTodos" parameterType="com.todolist_test2.demo.dto.todo.QueryTodoDTO"
+  resultType="com.todolist_test2.demo.mbg.model.Todo">
+    SELECT *
+    FROM b_todo
+    <where>
+      <if test="id != null">
+        and id = #{id}
+      </if>
+      <if test="categoryId != null">
+        and category_id = #{categoryId}
+      </if>
+      <if test="userId != null">
+        and user_id = #{userId}
+      </if>
+      <if test="priority != null">
+        and priority = #{priority}
+      </if>
+      <if test="state != null">
+        and state = #{state}
+      </if>
+      <if test="startTime != null">
+        and TIMEDIFF(#{startTime}, start_time) &lt;= 0
+      </if>
+      <if test="endTime != null">
+        and TIMEDIFF(#{endTime}, start_time) &gt;= 0
+      </if>
+    </where>
+  </select>
 </mapper>
