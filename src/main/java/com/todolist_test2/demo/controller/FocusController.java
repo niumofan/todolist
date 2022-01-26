@@ -37,7 +37,7 @@ public class FocusController {
         return ResultTool.success(focus);
     }
 
-    @ApiOperation(value = "获取专注记录")
+    @ApiOperation(value = "获取满足所有条件的专注记录", notes = "todoId, categoryId, userId有且只有一个能被赋值;")
     @PostMapping("queryFocus")
     public JsonResult<List<Focus>> queryFocus(@RequestBody @Validated QueryFocusDTO focusDTO) {
         System.out.println(focusDTO);

@@ -19,11 +19,11 @@ public class ModifyCategoryDTO {
     @NotNull
     private Integer id;
 
-    @ApiModelProperty(value = "用户ID", required = true, example = "用户ID", hidden = true)
-    @NotNull
-    private Integer userId;
+//    @ApiModelProperty(value = "用户ID", required = true, example = "用户ID", hidden = true, position = 1)
+//    @NotNull
+//    private Integer userId;
 
-    @ApiModelProperty(value = "新分类名(不能为空字符串)", required = true, example = "学习")
+    @ApiModelProperty(value = "新分类名(不能为空字符串)", required = true, example = "学习", position = 1)
     @NotBlank
     private String name;
 

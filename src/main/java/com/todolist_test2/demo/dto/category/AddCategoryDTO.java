@@ -19,7 +19,7 @@ public class AddCategoryDTO {
     @NotNull
     private Integer userId;
 
-    @ApiModelProperty(value = "分类名(不能为空字符串)", required = true, example = "健身")
+    @ApiModelProperty(value = "分类名(不能为空字符串)", required = true, example = "健身", position = 1)
     @NotBlank
     private String name;
 }
