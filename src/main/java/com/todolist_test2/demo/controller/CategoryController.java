@@ -23,7 +23,7 @@ import java.util.List;
  * @author nmf
  * @date 2022年01月20日 15:53
  */
-@Api("分类相关接口")
+@Api(tags = {"分类"}, description = "分类相关接口")
 @RequestMapping("/category")
 @RestController
 public class CategoryController {
@@ -49,7 +49,7 @@ public class CategoryController {
     }
 
     /* 修改分类信息 */
-    @ApiOperation(value = "修改一个分类(目前只修改分类名)")
+    @ApiOperation(value = "修改一个分类", notes = "目前只修改分类名")
     @PostMapping("modifyCategory")
     public JsonResult<Category> modifyCategory(@RequestBody @Validated ModifyCategoryDTO updateCategoryDTO) {
         System.out.println(updateCategoryDTO);

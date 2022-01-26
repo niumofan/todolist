@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.todolist_test2.demo.dao.FocusDao">
+  <select id="queryFocusOfTodo" parameterType="com.todolist_test2.demo.dto.focus.QueryFocusDTO"
+          resultType="com.todolist_test2.demo.mbg.model.Focus">
+    SELECT *
+    FROM b_focus
+    <where>
+      <if test="todoId != null">
+        and todo_id = #{todoId}
+      </if>
+      <if test="startTime != null">
+        and TIMEDIFF(#{startTime}, start_time) &lt;= 0
+      </if>
+      <if test="endTime != null">
+        and TIMEDIFF(#{endTime}, start_time) &gt;= 0
+      </if>
+      <if test="duration != null and greater == true">
+        and duration &gt;= #{duration}
+      </if>
+      <if test="duration != null and greater == false">
+        and duration &lt;= #{duration}
+      </if>
+    </where>
+  </select>
+  
+  <select id="queryFocusOfCategory" parameterType="com.todolist_test2.demo.dto.focus.QueryFocusDTO"
+          resultType="com.todolist_test2.demo.mbg.model.Focus">
+    SELECT *
+    FROM b_focus
+    WHERE todo_id IN (SELECT id FROM b_todo WHERE category_id = #{categoryId})
+    <if test="startTime != null">
+      AND TIMEDIFF(#{startTime}, start_time) &lt;= 0
+    </if>
+    <if test="endTime != null">
+      AND TIMEDIFF(#{endTime}, start_time) &gt;= 0
+    </if>
+    <if test="duration != null and greater == true">
+      AND duration &gt;= #{duration}
+    </if>
+    <if test="duration != null and greater == false">
+      AND duration &lt;= #{duration}
+    </if>
+  </select>
+  
+  <select id="queryFocusOfUser" parameterType="com.todolist_test2.demo.dto.focus.QueryFocusDTO"
+          resultType="com.todolist_test2.demo.mbg.model.Focus">
+    SELECT *
+    FROM b_focus
+    <where>
+      <if test="userId != null">
+        and user_id = #{userId}
+      </if>
+      <if test="startTime != null">
+        and TIMEDIFF(#{startTime}, start_time) &lt;= 0
+      </if>
+      <if test="endTime != null">
+        and TIMEDIFF(#{endTime}, start_time) &gt;= 0
+      </if>
+      <if test="duration != null and greater == true">
+        and duration &gt;= #{duration}
+      </if>
+      <if test="duration != null and greater == false">
+        and duration &lt;= #{duration}
+      </if>
+    </where>
+  </select>
+</mapper>

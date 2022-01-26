@@ -12,10 +12,17 @@ import java.util.Date;
 @Data
 public class QueryFocusDTO {
 
-    @NotNull
+    private Integer todoId;
+
     private Integer userId;
+
+    private Integer categoryId;
 
     private Date startTime;
 
     private Date endTime;
+
+    private Short duration;
+
+    private Boolean greater;
 }

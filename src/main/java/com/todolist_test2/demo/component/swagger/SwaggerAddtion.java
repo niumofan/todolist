@@ -89,7 +89,9 @@ public class SwaggerAddtion implements ApiListingScannerPlugin {
                                 ).build()))
                 .build();
 
-        ApiDescription loginApiDescription = new ApiDescription("login", "/login", "登录接口",
+//        ApiDescription loginApiDescription = new ApiDescription("login", "/login", "登录接口",
+//                Arrays.asList(usernamePasswordOperation), false);
+        ApiDescription loginApiDescription = new ApiDescription("/login", "登录接口",
                 Arrays.asList(usernamePasswordOperation), false);
 
         return Arrays.asList(loginApiDescription);
