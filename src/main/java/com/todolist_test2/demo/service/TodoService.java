@@ -2,10 +2,6 @@ package com.todolist_test2.demo.service;
 
 import com.alibaba.fastjson.JSON;
 import com.todolist_test2.demo.dao.TodoDao;
-import com.todolist_test2.demo.dto.category.AddCategoryDTO;
-import com.todolist_test2.demo.dto.category.DelCategoryDTO;
-import com.todolist_test2.demo.dto.category.ModifyCategoryDTO;
-import com.todolist_test2.demo.dto.category.QueryCategoryDTO;
 import com.todolist_test2.demo.dto.todo.AddTodoDTO;
 import com.todolist_test2.demo.dto.todo.DeleteTodoDTO;
 import com.todolist_test2.demo.dto.todo.ModifyTodoDTO;
@@ -13,8 +9,6 @@ import com.todolist_test2.demo.dto.todo.QueryTodoDTO;
 import com.todolist_test2.demo.entity.Subtodo;
 import com.todolist_test2.demo.enums.TodoState;
 import com.todolist_test2.demo.mbg.mapper.TodoMapper;
-import com.todolist_test2.demo.mbg.model.Category;
-import com.todolist_test2.demo.mbg.model.CategoryExample;
 import com.todolist_test2.demo.mbg.model.Todo;
 import com.todolist_test2.demo.mbg.model.TodoExample;
 import org.springframework.beans.BeanUtils;
@@ -22,7 +16,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Calendar;
+import java.util.List;
 
 /**
  * @author nmf
@@ -31,11 +28,19 @@ import java.util.*;
 @Service
 public class TodoService {
 
-    @Autowired
     private TodoMapper todoMapper;
 
-    @Autowired
     private TodoDao todoDao;
+
+    @Autowired
+    public void setTodoMapper(TodoMapper todoMapper) {
+        this.todoMapper = todoMapper;
+    }
+
+    @Autowired
+    public void setTodoDao(TodoDao todoDao) {
+        this.todoDao = todoDao;
+    }
 
     /* 添加待办 */
     public List<Todo> addTodo(AddTodoDTO todoDTO) {
@@ -70,7 +75,7 @@ public class TodoService {
         endCalendar.setTime(todoDTO.getEndTime());
 
         /* 将当前时间作为repeat标识 */
-        Integer rep = new Long(System.currentTimeMillis()).hashCode();
+        Long rep = System.currentTimeMillis();
 
         /* 若有闹钟 */
         Calendar alarmTime;
@@ -87,7 +92,7 @@ public class TodoService {
                 Todo todo = new Todo();
                 BeanUtils.copyProperties(todoDTO, todo);
                 todo.setStartTime(calendar.getTime());
-                todo.setState(TodoState.TODO);
+                todo.setState(TodoState.TODO.getCode().byteValue());
                 todo.setRepeat(rep);
                 todo.setSubtodos(subtodos);
                 /* 有闹钟时，年月日设置为开始时间start_time，时分秒与传入的alarm_time参数相同 */
@@ -108,22 +113,19 @@ public class TodoService {
 
     @Transactional
     public int deleteTodo(DeleteTodoDTO todoDTO) {
-//        return categoryDao.deleteCategoryByIds(categoryDTO.getCategoryIds());
         int res;
+        TodoExample example = new TodoExample();
         if (todoDTO.getRepeat() != 0) {
-            TodoExample example = new TodoExample();
             example.createCriteria().
                     andUserIdEqualTo(todoDTO.getUserId()).
                     andRepeatEqualTo(todoDTO.getRepeat()).
                     andStateEqualTo(TodoState.TODO.getCode().byteValue());
-            res = todoMapper.deleteByExample(example);
         } else {
-            TodoExample example = new TodoExample();
             example.createCriteria().
                     andIdEqualTo(todoDTO.getId()).
                     andStateEqualTo(TodoState.TODO.getCode().byteValue());
-            res = todoMapper.deleteByExample(example);
         }
+        res = todoMapper.deleteByExample(example);
         return res;
     }
 
@@ -135,20 +137,18 @@ public class TodoService {
         todo.setRepeat(null);
         todo.setId(null);
 
+        TodoExample example = new TodoExample();
         if (todoDTO.getRepeat() != 0) {
-            TodoExample example = new TodoExample();
             example.createCriteria().
                     andStateEqualTo(TodoState.TODO.getCode().byteValue()).
                     andUserIdEqualTo(todoDTO.getUserId()).
                     andRepeatEqualTo(todoDTO.getRepeat());
-            todoMapper.updateByExampleSelective(todo, example);
         } else {
-            TodoExample example = new TodoExample();
             example.createCriteria().
                     andIdEqualTo(todoDTO.getId()).
                     andStateEqualTo(TodoState.TODO.getCode().byteValue());
-            todoMapper.updateByExampleSelective(todo,example);
         }
+        todoMapper.updateByExampleSelective(todo, example);
         return 0;
     }
 

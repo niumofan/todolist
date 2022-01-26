@@ -25,6 +25,6 @@ public class DeleteTodoDTO {
 
     @ApiModelProperty(value = "是否删除重复待办", example = "", position = 6)
     @NotNull
-    private Integer repeat;
+    private Long repeat;
 
 }

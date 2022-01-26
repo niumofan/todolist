@@ -106,58 +106,6 @@ public class TodoExample {
             criteria.add(new Criterion(condition, value1, value2));
         }
 
-        protected void addCriterionForJDBCDate(String condition, Date value, String property) {
-            if (value == null) {
-                throw new RuntimeException("Value for " + property + " cannot be null");
-            }
-            addCriterion(condition, new java.sql.Date(value.getTime()), property);
-        }
-
-        protected void addCriterionForJDBCDate(String condition, List<Date> values, String property) {
-            if (values == null || values.size() == 0) {
-                throw new RuntimeException("Value list for " + property + " cannot be null or empty");
-            }
-            List<java.sql.Date> dateList = new ArrayList<java.sql.Date>();
-            Iterator<Date> iter = values.iterator();
-            while (iter.hasNext()) {
-                dateList.add(new java.sql.Date(iter.next().getTime()));
-            }
-            addCriterion(condition, dateList, property);
-        }
-
-        protected void addCriterionForJDBCDate(String condition, Date value1, Date value2, String property) {
-            if (value1 == null || value2 == null) {
-                throw new RuntimeException("Between values for " + property + " cannot be null");
-            }
-            addCriterion(condition, new java.sql.Date(value1.getTime()), new java.sql.Date(value2.getTime()), property);
-        }
-
-        protected void addCriterionForJDBCTime(String condition, Date value, String property) {
-            if (value == null) {
-                throw new RuntimeException("Value for " + property + " cannot be null");
-            }
-            addCriterion(condition, new java.sql.Time(value.getTime()), property);
-        }
-
-        protected void addCriterionForJDBCTime(String condition, List<Date> values, String property) {
-            if (values == null || values.size() == 0) {
-                throw new RuntimeException("Value list for " + property + " cannot be null or empty");
-            }
-            List<java.sql.Time> timeList = new ArrayList<java.sql.Time>();
-            Iterator<Date> iter = values.iterator();
-            while (iter.hasNext()) {
-                timeList.add(new java.sql.Time(iter.next().getTime()));
-            }
-            addCriterion(condition, timeList, property);
-        }
-
-        protected void addCriterionForJDBCTime(String condition, Date value1, Date value2, String property) {
-            if (value1 == null || value2 == null) {
-                throw new RuntimeException("Between values for " + property + " cannot be null");
-            }
-            addCriterion(condition, new java.sql.Time(value1.getTime()), new java.sql.Time(value2.getTime()), property);
-        }
-
         public Criteria andIdIsNull() {
             addCriterion("id is null");
             return (Criteria) this;
@@ -549,52 +497,52 @@ public class TodoExample {
         }
 
         public Criteria andStartTimeEqualTo(Date value) {
-            addCriterionForJDBCDate("start_time =", value, "startTime");
+            addCriterion("start_time =", value, "startTime");
             return (Criteria) this;
         }
 
         public Criteria andStartTimeNotEqualTo(Date value) {
-            addCriterionForJDBCDate("start_time <>", value, "startTime");
+            addCriterion("start_time <>", value, "startTime");
             return (Criteria) this;
         }
 
         public Criteria andStartTimeGreaterThan(Date value) {
-            addCriterionForJDBCDate("start_time >", value, "startTime");
+            addCriterion("start_time >", value, "startTime");
             return (Criteria) this;
         }
 
         public Criteria andStartTimeGreaterThanOrEqualTo(Date value) {
-            addCriterionForJDBCDate("start_time >=", value, "startTime");
+            addCriterion("start_time >=", value, "startTime");
             return (Criteria) this;
         }
 
         public Criteria andStartTimeLessThan(Date value) {
-            addCriterionForJDBCDate("start_time <", value, "startTime");
+            addCriterion("start_time <", value, "startTime");
             return (Criteria) this;
         }
 
         public Criteria andStartTimeLessThanOrEqualTo(Date value) {
-            addCriterionForJDBCDate("start_time <=", value, "startTime");
+            addCriterion("start_time <=", value, "startTime");
             return (Criteria) this;
         }
 
         public Criteria andStartTimeIn(List<Date> values) {
-            addCriterionForJDBCDate("start_time in", values, "startTime");
+            addCriterion("start_time in", values, "startTime");
             return (Criteria) this;
         }
 
         public Criteria andStartTimeNotIn(List<Date> values) {
-            addCriterionForJDBCDate("start_time not in", values, "startTime");
+            addCriterion("start_time not in", values, "startTime");
             return (Criteria) this;
         }
 
         public Criteria andStartTimeBetween(Date value1, Date value2) {
-            addCriterionForJDBCDate("start_time between", value1, value2, "startTime");
+            addCriterion("start_time between", value1, value2, "startTime");
             return (Criteria) this;
         }
 
         public Criteria andStartTimeNotBetween(Date value1, Date value2) {
-            addCriterionForJDBCDate("start_time not between", value1, value2, "startTime");
+            addCriterion("start_time not between", value1, value2, "startTime");
             return (Criteria) this;
         }
 
@@ -609,52 +557,52 @@ public class TodoExample {
         }
 
         public Criteria andAlarmTimeEqualTo(Date value) {
-            addCriterionForJDBCTime("alarm_time =", value, "alarmTime");
+            addCriterion("alarm_time =", value, "alarmTime");
             return (Criteria) this;
         }
 
         public Criteria andAlarmTimeNotEqualTo(Date value) {
-            addCriterionForJDBCTime("alarm_time <>", value, "alarmTime");
+            addCriterion("alarm_time <>", value, "alarmTime");
             return (Criteria) this;
         }
 
         public Criteria andAlarmTimeGreaterThan(Date value) {
-            addCriterionForJDBCTime("alarm_time >", value, "alarmTime");
+            addCriterion("alarm_time >", value, "alarmTime");
             return (Criteria) this;
         }
 
         public Criteria andAlarmTimeGreaterThanOrEqualTo(Date value) {
-            addCriterionForJDBCTime("alarm_time >=", value, "alarmTime");
+            addCriterion("alarm_time >=", value, "alarmTime");
             return (Criteria) this;
         }
 
         public Criteria andAlarmTimeLessThan(Date value) {
-            addCriterionForJDBCTime("alarm_time <", value, "alarmTime");
+            addCriterion("alarm_time <", value, "alarmTime");
             return (Criteria) this;
         }
 
         public Criteria andAlarmTimeLessThanOrEqualTo(Date value) {
-            addCriterionForJDBCTime("alarm_time <=", value, "alarmTime");
+            addCriterion("alarm_time <=", value, "alarmTime");
             return (Criteria) this;
         }
 
         public Criteria andAlarmTimeIn(List<Date> values) {
-            addCriterionForJDBCTime("alarm_time in", values, "alarmTime");
+            addCriterion("alarm_time in", values, "alarmTime");
             return (Criteria) this;
         }
 
         public Criteria andAlarmTimeNotIn(List<Date> values) {
-            addCriterionForJDBCTime("alarm_time not in", values, "alarmTime");
+            addCriterion("alarm_time not in", values, "alarmTime");
             return (Criteria) this;
         }
 
         public Criteria andAlarmTimeBetween(Date value1, Date value2) {
-            addCriterionForJDBCTime("alarm_time between", value1, value2, "alarmTime");
+            addCriterion("alarm_time between", value1, value2, "alarmTime");
             return (Criteria) this;
         }
 
         public Criteria andAlarmTimeNotBetween(Date value1, Date value2) {
-            addCriterionForJDBCTime("alarm_time not between", value1, value2, "alarmTime");
+            addCriterion("alarm_time not between", value1, value2, "alarmTime");
             return (Criteria) this;
         }
 
@@ -789,62 +737,62 @@ public class TodoExample {
         }
 
         public Criteria andRepeatIsNull() {
-            addCriterion("`repeat` is null");
+            addCriterion("repeat is null");
             return (Criteria) this;
         }
 
         public Criteria andRepeatIsNotNull() {
-            addCriterion("`repeat` is not null");
+            addCriterion("repeat is not null");
             return (Criteria) this;
         }
 
-        public Criteria andRepeatEqualTo(Integer value) {
-            addCriterion("`repeat` =", value, "`repeat`");
+        public Criteria andRepeatEqualTo(Long value) {
+            addCriterion("repeat =", value, "repeat");
             return (Criteria) this;
         }
 
-        public Criteria andRepeatNotEqualTo(Integer value) {
-            addCriterion("`repeat` <>", value, "`repeat`");
+        public Criteria andRepeatNotEqualTo(Long value) {
+            addCriterion("repeat <>", value, "repeat");
             return (Criteria) this;
         }
 
-        public Criteria andRepeatGreaterThan(Integer value) {
-            addCriterion("`repeat` >", value, "`repeat`");
+        public Criteria andRepeatGreaterThan(Long value) {
+            addCriterion("repeat >", value, "repeat");
             return (Criteria) this;
         }
 
-        public Criteria andRepeatGreaterThanOrEqualTo(Integer value) {
-            addCriterion("`repeat` >=", value, "`repeat`");
+        public Criteria andRepeatGreaterThanOrEqualTo(Long value) {
+            addCriterion("repeat >=", value, "repeat");
             return (Criteria) this;
         }
 
-        public Criteria andRepeatLessThan(Integer value) {
-            addCriterion("`repeat` <", value, "`repeat`");
+        public Criteria andRepeatLessThan(Long value) {
+            addCriterion("repeat <", value, "repeat");
             return (Criteria) this;
         }
 
-        public Criteria andRepeatLessThanOrEqualTo(Integer value) {
-            addCriterion("`repeat` <=", value, "`repeat`");
+        public Criteria andRepeatLessThanOrEqualTo(Long value) {
+            addCriterion("repeat <=", value, "repeat");
             return (Criteria) this;
         }
 
-        public Criteria andRepeatIn(List<Integer> values) {
-            addCriterion("`repeat` in", values, "`repeat`");
+        public Criteria andRepeatIn(List<Long> values) {
+            addCriterion("repeat in", values, "repeat");
             return (Criteria) this;
         }
 
-        public Criteria andRepeatNotIn(List<Integer> values) {
-            addCriterion("`repeat` not in", values, "`repeat`");
+        public Criteria andRepeatNotIn(List<Long> values) {
+            addCriterion("repeat not in", values, "repeat");
             return (Criteria) this;
         }
 
-        public Criteria andRepeatBetween(Integer value1, Integer value2) {
-            addCriterion("`repeat` between", value1, value2, "`repeat`");
+        public Criteria andRepeatBetween(Long value1, Long value2) {
+            addCriterion("repeat between", value1, value2, "repeat");
             return (Criteria) this;
         }
 
-        public Criteria andRepeatNotBetween(Integer value1, Integer value2) {
-            addCriterion("`repeat` not between", value1, value2, "`repeat`");
+        public Criteria andRepeatNotBetween(Long value1, Long value2) {
+            addCriterion("repeat not between", value1, value2, "repeat");
             return (Criteria) this;
         }
     }

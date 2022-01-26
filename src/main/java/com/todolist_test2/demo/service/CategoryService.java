@@ -21,11 +21,19 @@ import java.util.List;
 @Service
 public class CategoryService {
 
-    @Autowired
     private CategoryMapper categoryMapper;
 
-    @Autowired
     private CategoryDao categoryDao;
+
+    @Autowired
+    public void setCategoryMapper(CategoryMapper categoryMapper) {
+        this.categoryMapper = categoryMapper;
+    }
+
+    @Autowired
+    public void setCategoryDao(CategoryDao categoryDao) {
+        this.categoryDao = categoryDao;
+    }
 
     public Category addCategory(AddCategoryDTO categoryDTO) {
         Category category = new Category(null, categoryDTO.getUserId(), categoryDTO.getName());
@@ -39,8 +47,10 @@ public class CategoryService {
     }
 
     public Category modifyCategory(ModifyCategoryDTO categoryDTO) {
-        Category category = new Category(categoryDTO.getId(), categoryDTO.getUserId(), categoryDTO.getName());
-        categoryMapper.updateByPrimaryKey(category);
+        Category category = new Category();
+        category.setId(categoryDTO.getId());
+        category.setName(categoryDTO.getName());
+        categoryMapper.updateByPrimaryKeySelective(category);
         return category;
     }
 

@@ -41,5 +41,5 @@ public class ModifyTodoDTO {
     private String subtodos;
 
     @NotNull
-    private Integer repeat;
+    private Long repeat;
 }

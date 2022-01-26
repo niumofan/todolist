@@ -37,11 +37,11 @@ public class Todo implements Serializable {
     private String subtodos;
 
     @ApiModelProperty(value = "重复标识")
-    private Integer repeat;
+    private Long repeat;
 
     private static final long serialVersionUID = 1L;
 
-    public Todo(Integer id, Integer userId, Integer categoryId, String categoryName, String content, Byte priority, Date startTime, Date alarmTime, Byte state, String subtodos, Integer repeat) {
+    public Todo(Integer id, Integer userId, Integer categoryId, String categoryName, String content, Byte priority, Date startTime, Date alarmTime, Byte state, String subtodos, Long repeat) {
         this.id = id;
         this.userId = userId;
         this.categoryId = categoryId;
@@ -131,10 +131,6 @@ public class Todo implements Serializable {
         this.state = state;
     }
 
-    public void setState(TodoState state) {
-        this.state = state.getCode().byteValue();
-    }
-
     public String getSubtodos() {
         return subtodos;
     }
@@ -143,11 +139,11 @@ public class Todo implements Serializable {
         this.subtodos = subtodos;
     }
 
-    public Integer getRepeat() {
+    public Long getRepeat() {
         return repeat;
     }
 
-    public void setRepeat(Integer repeat) {
+    public void setRepeat(Long repeat) {
         this.repeat = repeat;
     }
 
