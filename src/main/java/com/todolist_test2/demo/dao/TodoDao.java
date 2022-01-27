@@ -4,6 +4,7 @@ import com.todolist_test2.demo.dto.todo.QueryTodoDTO;
 import com.todolist_test2.demo.mbg.model.Todo;
 import org.apache.ibatis.annotations.Mapper;
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -18,4 +19,6 @@ public interface TodoDao {
     int deleteTodos(List<Integer> todoIds);
 
     List<Todo> queryTodos(QueryTodoDTO todoDTO);
+
+    void setTodoAsFailed(Date yesterday);
 }

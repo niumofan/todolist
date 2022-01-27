@@ -46,7 +46,8 @@ public class CustomizeAuthenticationSuccessHandler implements AuthenticationSucc
         //进而前台动态的控制菜单的显示等，具体根据自己的业务需求进行扩展
 
         //返回json数据
-        JsonResult<Object> result = ResultTool.success();
+        JsonResult<Object> result = ResultTool.success(user);
+        user.setPassword(null);
         //处理编码方式，防止中文乱码的情况
         httpServletResponse.setContentType("text/json;charset=utf-8");
         //塞到HttpServletResponse中返回给前台

@@ -37,11 +37,11 @@ public class Todo implements Serializable {
     private String subtodos;
 
     @ApiModelProperty(value = "重复标识")
-    private Long repeat;
+    private Long repetition;
 
     private static final long serialVersionUID = 1L;
 
-    public Todo(Integer id, Integer userId, Integer categoryId, String categoryName, String content, Byte priority, Date startTime, Date alarmTime, Byte state, String subtodos, Long repeat) {
+    public Todo(Integer id, Integer userId, Integer categoryId, String categoryName, String content, Byte priority, Date startTime, Date alarmTime, Byte state, String subtodos, Long repetition) {
         this.id = id;
         this.userId = userId;
         this.categoryId = categoryId;
@@ -52,7 +52,7 @@ public class Todo implements Serializable {
         this.alarmTime = alarmTime;
         this.state = state;
         this.subtodos = subtodos;
-        this.repeat = repeat;
+        this.repetition = repetition;
     }
 
     public Todo() {
@@ -139,12 +139,12 @@ public class Todo implements Serializable {
         this.subtodos = subtodos;
     }
 
-    public Long getRepeat() {
-        return repeat;
+    public Long getRepetition() {
+        return repetition;
     }
 
-    public void setRepeat(Long repeat) {
-        this.repeat = repeat;
+    public void setRepetition(Long repetition) {
+        this.repetition = repetition;
     }
 
     @Override
@@ -163,7 +163,7 @@ public class Todo implements Serializable {
         sb.append(", alarmTime=").append(alarmTime);
         sb.append(", state=").append(state);
         sb.append(", subtodos=").append(subtodos);
-        sb.append(", repeat=").append(repeat);
+        sb.append(", repetition=").append(repetition);
         sb.append(", serialVersionUID=").append(serialVersionUID);
         sb.append("]");
         return sb.toString();

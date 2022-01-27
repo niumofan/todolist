@@ -736,63 +736,63 @@ public class TodoExample {
             return (Criteria) this;
         }
 
-        public Criteria andRepeatIsNull() {
-            addCriterion("repeat is null");
+        public Criteria andRepetitionIsNull() {
+            addCriterion("repetition is null");
             return (Criteria) this;
         }
 
-        public Criteria andRepeatIsNotNull() {
-            addCriterion("repeat is not null");
+        public Criteria andRepetitionIsNotNull() {
+            addCriterion("repetition is not null");
             return (Criteria) this;
         }
 
-        public Criteria andRepeatEqualTo(Long value) {
-            addCriterion("repeat =", value, "repeat");
+        public Criteria andRepetitionEqualTo(Long value) {
+            addCriterion("repetition =", value, "repetition");
             return (Criteria) this;
         }
 
-        public Criteria andRepeatNotEqualTo(Long value) {
-            addCriterion("repeat <>", value, "repeat");
+        public Criteria andRepetitionNotEqualTo(Long value) {
+            addCriterion("repetition <>", value, "repetition");
             return (Criteria) this;
         }
 
-        public Criteria andRepeatGreaterThan(Long value) {
-            addCriterion("repeat >", value, "repeat");
+        public Criteria andRepetitionGreaterThan(Long value) {
+            addCriterion("repetition >", value, "repetition");
             return (Criteria) this;
         }
 
-        public Criteria andRepeatGreaterThanOrEqualTo(Long value) {
-            addCriterion("repeat >=", value, "repeat");
+        public Criteria andRepetitionGreaterThanOrEqualTo(Long value) {
+            addCriterion("repetition >=", value, "repetition");
             return (Criteria) this;
         }
 
-        public Criteria andRepeatLessThan(Long value) {
-            addCriterion("repeat <", value, "repeat");
+        public Criteria andRepetitionLessThan(Long value) {
+            addCriterion("repetition <", value, "repetition");
             return (Criteria) this;
         }
 
-        public Criteria andRepeatLessThanOrEqualTo(Long value) {
-            addCriterion("repeat <=", value, "repeat");
+        public Criteria andRepetitionLessThanOrEqualTo(Long value) {
+            addCriterion("repetition <=", value, "repetition");
             return (Criteria) this;
         }
 
-        public Criteria andRepeatIn(List<Long> values) {
-            addCriterion("repeat in", values, "repeat");
+        public Criteria andRepetitionIn(List<Long> values) {
+            addCriterion("repetition in", values, "repetition");
             return (Criteria) this;
         }
 
-        public Criteria andRepeatNotIn(List<Long> values) {
-            addCriterion("repeat not in", values, "repeat");
+        public Criteria andRepetitionNotIn(List<Long> values) {
+            addCriterion("repetition not in", values, "repetition");
             return (Criteria) this;
         }
 
-        public Criteria andRepeatBetween(Long value1, Long value2) {
-            addCriterion("repeat between", value1, value2, "repeat");
+        public Criteria andRepetitionBetween(Long value1, Long value2) {
+            addCriterion("repetition between", value1, value2, "repetition");
             return (Criteria) this;
         }
 
-        public Criteria andRepeatNotBetween(Long value1, Long value2) {
-            addCriterion("repeat not between", value1, value2, "repeat");
+        public Criteria andRepetitionNotBetween(Long value1, Long value2) {
+            addCriterion("repetition not between", value1, value2, "repetition");
             return (Criteria) this;
         }
     }

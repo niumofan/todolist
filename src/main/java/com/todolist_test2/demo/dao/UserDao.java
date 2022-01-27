@@ -1,6 +1,7 @@
 package com.todolist_test2.demo.dao;
 
 import com.todolist_test2.demo.mbg.model.Permission;
+import com.todolist_test2.demo.mbg.model.User;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
@@ -13,4 +14,6 @@ import java.util.List;
 public interface UserDao {
 
     List<Permission> selectPermissionsByUserId(Integer userId);
+
+    User loadUserByUsername(String username);
 }

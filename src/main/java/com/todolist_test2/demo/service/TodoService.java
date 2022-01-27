@@ -62,9 +62,9 @@ public class TodoService {
         /* 判断星期几重复待办 */
         boolean[] flag = new boolean[7];
         Arrays.fill(flag, false);
-        Byte repeat = todoDTO.getRepeat();
+        Byte repetition = todoDTO.getRepetition();
         for (int i = 0; i < 7; i++) {
-            if (((repeat >>> i) & 0x1) != 0) {
+            if (((repetition >>> i) & 0x1) != 0) {
                 flag[i] = true;
             }
         }
@@ -74,7 +74,7 @@ public class TodoService {
         Calendar endCalendar = Calendar.getInstance();
         endCalendar.setTime(todoDTO.getEndTime());
 
-        /* 将当前时间作为repeat标识 */
+        /* 将当前时间作为repetition标识 */
         Long rep = System.currentTimeMillis();
 
         /* 若有闹钟 */
@@ -93,7 +93,7 @@ public class TodoService {
                 BeanUtils.copyProperties(todoDTO, todo);
                 todo.setStartTime(calendar.getTime());
                 todo.setState(TodoState.TODO.getCode().byteValue());
-                todo.setRepeat(rep);
+                todo.setRepetition(rep);
                 todo.setSubtodos(subtodos);
                 /* 有闹钟时，年月日设置为开始时间start_time，时分秒与传入的alarm_time参数相同 */
                 if (alarmTime != null) {
@@ -115,10 +115,11 @@ public class TodoService {
     public int deleteTodo(DeleteTodoDTO todoDTO) {
         int res;
         TodoExample example = new TodoExample();
-        if (todoDTO.getRepeat() != 0) {
+        if (todoDTO.getRepetition()) {
+            Long repetition = todoMapper.selectByPrimaryKey(todoDTO.getId()).getRepetition();
             example.createCriteria().
                     andUserIdEqualTo(todoDTO.getUserId()).
-                    andRepeatEqualTo(todoDTO.getRepeat()).
+                    andRepetitionEqualTo(repetition).
                     andStateEqualTo(TodoState.TODO.getCode().byteValue());
         } else {
             example.createCriteria().
@@ -134,15 +135,17 @@ public class TodoService {
         Todo todo = new Todo();
         BeanUtils.copyProperties(todoDTO, todo);
         todo.setUserId(null);
-        todo.setRepeat(null);
+        todo.setRepetition(null);
         todo.setId(null);
 
         TodoExample example = new TodoExample();
-        if (todoDTO.getRepeat() != 0) {
+        if (todoDTO.getRepetition()) {
+            Long repetition = todoMapper.selectByPrimaryKey(todoDTO.getId()).getRepetition();
+            System.out.println(repetition);
             example.createCriteria().
                     andStateEqualTo(TodoState.TODO.getCode().byteValue()).
                     andUserIdEqualTo(todoDTO.getUserId()).
-                    andRepeatEqualTo(todoDTO.getRepeat());
+                    andRepetitionEqualTo(repetition);
         } else {
             example.createCriteria().
                     andIdEqualTo(todoDTO.getId()).

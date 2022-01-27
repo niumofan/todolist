@@ -30,7 +30,7 @@ public class TodoController {
 
     @ApiOperation(value = "添加一个待办事项",
             notes = "可添加重复事项\n\n" +
-                    "repeat为一个字节,第 i 位表示星期 i 是否重复待办事项。i=0为星期日，i=1为星期一, ..., i=6为星期六)\n" +
+                    "repetition为一个字节,第 i 位表示星期 i 是否重复待办事项。i=0为星期日，i=1为星期一, ..., i=6为星期六)\n" +
                     "如:\n\t5->0b00000101 (在 startTime ~ endTime 时间段内, 每周日和每周二重复待办)\n\t0 (只在 startTime 当天生效)")
     @PostMapping("addTodo")
     public JsonResult<List<Todo>> addTodo(@RequestBody @Validated AddTodoDTO todoDTO) {

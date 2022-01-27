@@ -11,7 +11,7 @@ import java.util.List;
  * @author nmf
  * @date 2022年01月20日 16:12
  */
-@ApiModel(description = "删除分类的请求参数")
+@ApiModel(value = "删除分类的请求参数")
 @Data
 public class DelCategoryDTO {
 

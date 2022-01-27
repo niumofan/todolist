@@ -1,5 +1,6 @@
 package com.todolist_test2.demo.dto.todo;
 
+import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import org.springframework.beans.factory.annotation.Value;
@@ -12,6 +13,7 @@ import java.util.List;
  * @author nmf
  * @date 2022年01月20日 17:13
  */
+@ApiModel(value = "删除待办的请求参数")
 @Data
 public class DeleteTodoDTO {
 
@@ -23,8 +25,8 @@ public class DeleteTodoDTO {
     @NotNull
     private Integer userId;
 
-    @ApiModelProperty(value = "是否删除重复待办", example = "", position = 6)
+    @ApiModelProperty(value = "是否删除重复待办", example = "true", position = 6)
     @NotNull
-    private Long repeat;
+    private Boolean repetition;
 
 }

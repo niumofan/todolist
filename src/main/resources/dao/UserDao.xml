@@ -8,4 +8,10 @@
         LEFT JOIN s_permission p ON rrp.permission_id = p.id
         WHERE rur.user_id = #{userId}
     </select>
+    
+    <select id="loadUserByUsername" resultType="com.todolist_test2.demo.mbg.model.User">
+        SELECT id, username, nickname, sex, mobile, qq, wexin, email
+        FROM s_user
+        WHERE username = #{username}
+    </select>
 </mapper>

@@ -3,10 +3,8 @@ package com.todolist_test2.demo.service.impl;
 import com.todolist_test2.demo.dao.UserDao;
 import com.todolist_test2.demo.dto.UserRegisterDTO;
 import com.todolist_test2.demo.entity.SecurityUser;
-import com.todolist_test2.demo.mbg.mapper.PermissionMapper;
 import com.todolist_test2.demo.mbg.mapper.UserMapper;
 import com.todolist_test2.demo.mbg.model.Permission;
-import com.todolist_test2.demo.mbg.model.PermissionExample;
 import com.todolist_test2.demo.mbg.model.User;
 import com.todolist_test2.demo.mbg.model.UserExample;
 import com.todolist_test2.demo.service.UserService;
@@ -31,11 +29,19 @@ import java.util.List;
 @Service
 public class UserServiceImpl implements UserService, UserDetailsService {
 
-    @Autowired
     private UserMapper userMapper;
 
-    @Autowired
     private UserDao userDao;
+
+    @Autowired
+    public void setUserMapper(UserMapper userMapper) {
+        this.userMapper = userMapper;
+    }
+
+    @Autowired
+    public void setUserDao(UserDao userDao) {
+        this.userDao = userDao;
+    }
 
     @Override
     public UserDetails loadUserByUsername(String username) {
@@ -103,4 +109,6 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     public int updateUser(User user) {
         return userMapper.updateByPrimaryKey(user);
     }
+
+//    public User getUser()
 }

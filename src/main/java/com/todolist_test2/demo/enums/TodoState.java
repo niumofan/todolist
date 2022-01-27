@@ -1,7 +1,5 @@
 package com.todolist_test2.demo.enums;
 
-import lombok.Data;
-
 /**
  * @author nmf
  * @date 2022年01月20日 16:37
