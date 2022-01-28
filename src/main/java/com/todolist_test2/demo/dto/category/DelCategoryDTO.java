@@ -17,11 +17,11 @@ import java.util.List;
 public class DelCategoryDTO {
 
     @ApiModelProperty(value = "用户ID", required = true, example = "123456")
-    @NotNull
+    @NotNull(message = "userId[{user.id.notnull}]")
     private Integer userId;
 
 
-    @ApiModelProperty(value = "分类ID列表(不能为空表)", required = true, example = "[1,2,3]")
-    @Size(min = 1)
+    @ApiModelProperty(value = "分类ID列表", required = true, example = "[1,2,3]")
+    @Size(min = 1, message = "categoryIds[{category.ids.size}]")
     private List<Integer> categoryIds;
 }

@@ -1,9 +1,12 @@
 package com.todolist_test2.demo.enums;
 
+import io.swagger.annotations.ApiModel;
+
 /**
  * @author nmf
  * @date 2021年11月02日 10:19
  */
+@ApiModel(value = "返回码")
 public enum ResultCode {
 
     /* 成功 */
@@ -13,10 +16,10 @@ public enum ResultCode {
     COMMON_FAIL(999, "未知错误"),
 
     /* 参数错误：1000～1999 */
-    PARAM_NOT_VALID(1001, "参数无效"),
-    PARAM_IS_BLANK(1002, "参数为空"),
-    PARAM_TYPE_ERROR(1003, "参数类型错误"),
-    PARAM_NOT_COMPLETE(1004, "参数缺失"),
+    PARAM_NOT_VALID(1001, "参数校验错误"),
+//    PARAM_IS_BLANK(1002, "参数为空"),
+//    PARAM_TYPE_ERROR(1003, "参数类型错误"),
+//    PARAM_NOT_COMPLETE(1004, "参数缺失"),
 
     /* 用户错误 */
     USER_NOT_LOGIN(2001, "用户未登录"),

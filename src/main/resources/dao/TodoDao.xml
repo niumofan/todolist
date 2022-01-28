@@ -24,7 +24,7 @@
   <update id="setTodoAsFailed">
     UPDATE b_todo
     SET state = 3, subtodos = REPLACE(subtodos, '"state":1', '"state":3')
-    WHERE state = 1 AND DATEDIFF(start_time, #{yesterday}) = 0;
+    WHERE state = 1 AND DATEDIFF(start_time, #{yesterday}) &lt;= 0;
   </update>
   
   <delete id="deleteTodos" parameterType="java.lang.Integer">

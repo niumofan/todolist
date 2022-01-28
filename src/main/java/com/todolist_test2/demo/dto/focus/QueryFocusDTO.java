@@ -4,6 +4,7 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import java.util.Date;
 
@@ -31,8 +32,9 @@ public class QueryFocusDTO {
     private Date endTime;
 
     @ApiModelProperty(value = "查询专注时长 大于等于或小于等于 duration 的专注记录（单位:秒）", example = "1800", position = 6)
-    private Short duration;
+    @Min(value = 0, message = "duration[focus.duration.min]")
+    private Short duration = 0;
 
     @ApiModelProperty(value = "true[大于等于], false[小于等于]", example = "true", position = 7)
-    private Boolean greater;
+    private Boolean greater = true;
 }

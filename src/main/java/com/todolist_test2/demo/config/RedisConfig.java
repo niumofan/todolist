@@ -15,6 +15,7 @@ import org.springframework.data.redis.connection.RedisConnectionFactory;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.serializer.Jackson2JsonRedisSerializer;
 import org.springframework.data.redis.serializer.RedisSerializationContext;
+import org.springframework.data.redis.serializer.RedisSerializer;
 import org.springframework.data.redis.serializer.StringRedisSerializer;
 
 import java.time.Duration;
@@ -27,8 +28,10 @@ import java.time.Duration;
 @EnableCaching
 public class RedisConfig extends CachingConfigurerSupport {
 
-    @Bean(name = "template")
-    public RedisTemplate<String, Object> template(@Autowired RedisConnectionFactory factory) {
+    public static RedisTemplate<String, Object> redisTemplate;
+
+    @Bean(name = "redisTemplate")
+    public RedisTemplate<String, Object> redisTemplate(@Autowired RedisConnectionFactory factory) {
         // 创建RedisTemplate<String, Object>对象
         RedisTemplate<String, Object> template = new RedisTemplate<>();
         // 配置连接工厂
@@ -43,26 +46,34 @@ public class RedisConfig extends CachingConfigurerSupport {
         jacksonSeial.setObjectMapper(om);
         StringRedisSerializer stringSerial = new StringRedisSerializer();
         // redis key 序列化方式使用stringSerial
-        template.setKeySerializer(stringSerial);
+//        template.setKeySerializer(stringSerial);
         // redis value 序列化方式使用jackson
-        template.setValueSerializer(jacksonSeial);
+//        template.setValueSerializer(jacksonSeial);
         // redis hash key 序列化方式使用stringSerial
-        template.setHashKeySerializer(stringSerial);
+//        template.setHashKeySerializer(stringSerial);
         // redis hash value 序列化方式使用jackson
-        template.setHashValueSerializer(jacksonSeial);
+//        template.setHashValueSerializer(jacksonSeial);
+
+        template.setKeySerializer(RedisSerializer.string());
+        template.setValueSerializer(RedisSerializer.json());
+        template.setHashKeySerializer(RedisSerializer.string());
+        template.setHashValueSerializer(RedisSerializer.json());
+
         template.afterPropertiesSet();
+//        redisTemplate = template;
+        redisTemplate = template;
         return template;
     }
 
     @Bean("cacheManager")
-    public CacheManager cacheManager(@Autowired RedisTemplate<String, Object> template) {
+    public CacheManager cacheManager(@Autowired RedisTemplate<String, Object> redisTemplate) {
         RedisCacheConfiguration defaultCacheConfiguration =
                 RedisCacheConfiguration
                         .defaultCacheConfig()
                         // 设置key为String
-                        .serializeKeysWith(RedisSerializationContext.SerializationPair.fromSerializer(template.getStringSerializer()))
+                        .serializeKeysWith(RedisSerializationContext.SerializationPair.fromSerializer(redisTemplate.getStringSerializer()))
                         // 设置value 为自动转Json的Object
-                        .serializeValuesWith(RedisSerializationContext.SerializationPair.fromSerializer(template.getValueSerializer()))
+                        .serializeValuesWith(RedisSerializationContext.SerializationPair.fromSerializer(redisTemplate.getValueSerializer()))
                         // 不缓存null
                         .disableCachingNullValues()
                         // 缓存数据保存1小时
@@ -71,7 +82,7 @@ public class RedisConfig extends CachingConfigurerSupport {
         RedisCacheManager redisCacheManager =
                 RedisCacheManager.RedisCacheManagerBuilder
                         // Redis 连接工厂
-                        .fromConnectionFactory(template.getConnectionFactory())
+                        .fromConnectionFactory(redisTemplate.getConnectionFactory())
                         // 缓存配置
                         .cacheDefaults(defaultCacheConfiguration)
                         // 配置同步修改或删除 put/evict

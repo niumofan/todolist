@@ -1,5 +1,6 @@
 package com.todolist_test2.demo.service;
 
+import com.todolist_test2.demo.config.RedisConfig;
 import com.todolist_test2.demo.dao.CategoryDao;
 import com.todolist_test2.demo.dto.category.AddCategoryDTO;
 import com.todolist_test2.demo.dto.category.DelCategoryDTO;
@@ -8,6 +9,7 @@ import com.todolist_test2.demo.dto.category.QueryCategoryDTO;
 import com.todolist_test2.demo.mbg.mapper.CategoryMapper;
 import com.todolist_test2.demo.mbg.model.Category;
 import com.todolist_test2.demo.mbg.model.CategoryExample;
+import com.todolist_test2.demo.utils.RedisTool;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheConfig;
 import org.springframework.cache.annotation.CacheEvict;
@@ -29,6 +31,7 @@ public class CategoryService {
     private CategoryMapper categoryMapper;
 
     private CategoryDao categoryDao;
+
 
     @Autowired
     public void setCategoryMapper(CategoryMapper categoryMapper) {

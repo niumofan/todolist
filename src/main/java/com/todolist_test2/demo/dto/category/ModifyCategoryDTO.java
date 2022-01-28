@@ -6,28 +6,26 @@ import lombok.Data;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 /**
  * @author nmf
  * @date 2022年01月20日 16:18
  */
-@ApiModel("修改分类的请求参数")
+@ApiModel(value = "修改分类的请求参数")
 @Data
 public class ModifyCategoryDTO {
 
     @ApiModelProperty(value = "分类ID", required = true, example = "30")
-    @NotNull
+    @NotNull(message = "id[{category.id.notnull}]")
     private Integer id;
 
     @ApiModelProperty(value = "用户ID", required = true, example = "123456", position = 1)
-    @NotNull
+    @NotNull(message = "userId[{user.id.notnull}]")
     private Integer userId;
 
-//    @ApiModelProperty(value = "用户ID", required = true, example = "用户ID", hidden = true, position = 1)
-//    @NotNull
-//    private Integer userId;
-
     @ApiModelProperty(value = "新分类名(不能为空字符串)", required = true, example = "学习", position = 2)
-    @NotBlank
+    @NotBlank(message = "name[{category.name.notblank}]")
+    @Size(max = 10, message = "name[{category.name.size}]")
     private String name;
 }

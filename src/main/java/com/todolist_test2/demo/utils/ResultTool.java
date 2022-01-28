@@ -3,6 +3,8 @@ package com.todolist_test2.demo.utils;
 import com.todolist_test2.demo.enums.ResultCode;
 import com.todolist_test2.demo.vo.JsonResult;
 
+import java.util.List;
+
 /**
  * @author nmf
  * @date 2021年11月02日 10:34
@@ -23,5 +25,9 @@ public class ResultTool {
 
     public static JsonResult<Object> fail(ResultCode resultEnum) {
         return new JsonResult<>(false, resultEnum);
+    }
+
+    public static JsonResult<Object> fail(ResultCode resultEnum, String msg) {
+        return new JsonResult<>(false, resultEnum.getCode(), msg, null);
     }
 }

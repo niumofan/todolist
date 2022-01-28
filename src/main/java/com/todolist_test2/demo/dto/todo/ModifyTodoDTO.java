@@ -5,12 +5,8 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import org.hibernate.validator.constraints.Range;
 
-import javax.validation.constraints.Future;
-import javax.validation.constraints.Min;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
+import javax.validation.constraints.*;
 import java.util.Date;
-import java.util.List;
 
 /**
  * @author nmf
@@ -21,37 +17,35 @@ import java.util.List;
 public class ModifyTodoDTO {
 
     @ApiModelProperty(value = "待办ID", required = true, example = "10", position = 1)
-    @NotNull
+    @NotNull(message = "id[{todo.id.notnull}]")
     private Integer id;
 
     @ApiModelProperty(value = "用户ID", required = true, example = "123456", position = 2)
-    @NotNull
+    @NotNull(message = "userId[{user.id.notnull}]")
     private Integer userId;
 
-    @ApiModelProperty(value = "分类ID", example = "20", position = 3)
+    @ApiModelProperty(value = "分类ID(与分类名要么同时存在，要么同时不存在)", example = "20", position = 3)
     private Integer categoryId;
 
-//    @ApiModelProperty(value = "待办名", required = true, example = "10", position = 1)
-//    private String categoryName;
+    @ApiModelProperty(value = "分类名(与分类ID要么同时存在，要么同时不存在)", required = true, example = "10", position = 1)
+    private String categoryName;
 
     @ApiModelProperty(value = "待办内容", example = "打豆豆", position = 5)
+    @Size(min = 1, max = 30, message = "content[{todo.content.size}]")
     private String content;
 
-    @ApiModelProperty(value = "紧急程度", example = "2", position = 6)
-    @Range(min=1, max=3)
+    @ApiModelProperty(value = "紧急程度{1[不紧急], 2[一般], 3[非常紧急]}", example = "2", position = 6)
+    @Range(min=1, max=3, message = "priority[{todo.priority.range}]")
     private Integer priority;
 
-//    @Future
-//    private Date startTime;
-
     @ApiModelProperty(value = "闹钟时间", example = "2022-05-30 08:55:00", position = 7)
-    @Future
+    @Future(message = "alarmTime[{todo.alarmTime.future}]")
     private Date alarmTime;
 
     @ApiModelProperty(value = "子待办事项列表", example = "[{'content':'跳绳20min'},{'content':'跑步20min'}]", position = 8)
     private String subtodos;
 
-    @ApiModelProperty(value = "是否修改重复待办", required = true, example = "false", position = 9)
-    @NotNull
+    @ApiModelProperty(value = "是否修改重复待办{true[是], false[否]}", required = true, example = "false", position = 9)
+    @NotNull(message = "repetition[{todo.repetition.notnull}]")
     private Boolean repetition;
 }

@@ -1,10 +1,12 @@
 package com.todolist_test2.demo.utils;
 
+import com.todolist_test2.demo.config.RedisConfig;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.data.redis.serializer.RedisSerializer;
 
+import javax.annotation.PostConstruct;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -16,13 +18,31 @@ import java.util.concurrent.TimeUnit;
  */
 public class RedisTool {
 
-    private static final RedisTemplate<String, Object> redisTemplate = new RedisTemplate<>();
+
+//    private RedisTemplate<String, Object> template;
+//
+//    @Autowired
+//    public void setTemplate(RedisTemplate<String, Object> redisTemplate) {
+//        this.template = redisTemplate;
+//    }
+
+    public static RedisTemplate<String, Object> redisTemplate;
+
+//    @PostConstruct
+//    public void init() {
+//        redisTemplate = RedisConfig.redisTemplate;
+//    }
+
+//    private static final RedisTemplate<String, Object> redisTemplate = new RedisTemplate<>();
 
     static {
-        redisTemplate.setKeySerializer(RedisSerializer.string());
-        redisTemplate.setValueSerializer(RedisSerializer.json());
-        redisTemplate.setHashKeySerializer(RedisSerializer.string());
-        redisTemplate.setHashValueSerializer(RedisSerializer.json());
+        redisTemplate = RedisConfig.redisTemplate;
+        System.out.println(redisTemplate);
+//        redisTemplate.setKeySerializer(RedisSerializer.string());
+//        redisTemplate.setValueSerializer(RedisSerializer.json());
+//        redisTemplate.setHashKeySerializer(RedisSerializer.string());
+//        redisTemplate.setHashValueSerializer(RedisSerializer.json());
+
     }
 
     public void set(String key, Object value, long time) {
@@ -145,7 +165,7 @@ public class RedisTool {
         return redisTemplate.opsForList().index(key, index);
     }
 
-    public Long lPush(String key, Object value) {
+    public static Long lPush(String key, Object value) {
         return redisTemplate.opsForList().rightPush(key, value);
     }
 
