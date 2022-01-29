@@ -1,12 +1,10 @@
 package com.todolist_test2.demo.utils;
 
-import com.todolist_test2.demo.config.RedisConfig;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
-import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.data.redis.serializer.RedisSerializer;
+import org.springframework.stereotype.Service;
 
-import javax.annotation.PostConstruct;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -16,32 +14,22 @@ import java.util.concurrent.TimeUnit;
  * @author nmf
  * @date 2021年11月08日 21:57
  */
-public class RedisTool {
+@Service
+public class RedisService {
 
-
-//    private RedisTemplate<String, Object> template;
+//    public static RedisTemplate<String, Object> redisTemplate;
 //
-//    @Autowired
-//    public void setTemplate(RedisTemplate<String, Object> redisTemplate) {
-//        this.template = redisTemplate;
-//    }
-
-    public static RedisTemplate<String, Object> redisTemplate;
-
-//    @PostConstruct
-//    public void init() {
+//    static {
 //        redisTemplate = RedisConfig.redisTemplate;
+//        System.out.println(redisTemplate);
 //    }
 
-//    private static final RedisTemplate<String, Object> redisTemplate = new RedisTemplate<>();
+    private RedisTemplate<String, Object> redisTemplate;
 
-    static {
-        redisTemplate = RedisConfig.redisTemplate;
-        System.out.println(redisTemplate);
-//        redisTemplate.setKeySerializer(RedisSerializer.string());
-//        redisTemplate.setValueSerializer(RedisSerializer.json());
-//        redisTemplate.setHashKeySerializer(RedisSerializer.string());
-//        redisTemplate.setHashValueSerializer(RedisSerializer.json());
+
+    @Autowired
+    public void setRedisTemplate(RedisTemplate<String, Object> redisTemplate) {
+        this.redisTemplate = redisTemplate;
 
     }
 
@@ -165,7 +153,7 @@ public class RedisTool {
         return redisTemplate.opsForList().index(key, index);
     }
 
-    public static Long lPush(String key, Object value) {
+    public Long lPush(String key, Object value) {
         return redisTemplate.opsForList().rightPush(key, value);
     }
 
@@ -189,14 +177,7 @@ public class RedisTool {
         return redisTemplate.opsForList().remove(key, count, value);
     }
 
-    /**
-     * 获取list缓存的内容
-     *
-     * @param key   键
-     * @param start 开始
-     * @param end   结束  0 到 -1代表所有值
-     * @return
-     */
+
     public List lGet(String key, long start, long end) {
         try {
             return redisTemplate.opsForList().range(key, start, end);
@@ -205,4 +186,14 @@ public class RedisTool {
             return null;
         }
     }
+
+    public List lGet(String key) {
+        try {
+            return redisTemplate.opsForList().range(key, 0, -1);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
 }

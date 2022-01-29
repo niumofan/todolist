@@ -13,6 +13,7 @@ import com.todolist_test2.demo.mbg.model.Todo;
 import com.todolist_test2.demo.mbg.model.TodoExample;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -155,6 +156,7 @@ public class TodoService {
         return 0;
     }
 
+    @Cacheable()
     public List<Todo> queryTodos(QueryTodoDTO todoDTO) {
         return todoDao.queryTodos(todoDTO);
     }

@@ -25,17 +25,11 @@ import java.time.Duration;
  * @date 2022年01月27日 19:19
  */
 @Configuration
-@EnableCaching
+//@EnableCaching
 public class RedisConfig extends CachingConfigurerSupport {
 
-    public static RedisTemplate<String, Object> redisTemplate;
-
-    public static RedisTemplate<String, Object> getRedisTemplate() {
-        return redisTemplate;
-    }
-
     @Bean(name = "redisTemplate")
-    public RedisTemplate<String, Object> redisTemplate(@Autowired RedisConnectionFactory factory) {
+    public RedisTemplate<String, Object> redisTemplate(RedisConnectionFactory factory) {
         // 创建RedisTemplate<String, Object>对象
         RedisTemplate<String, Object> template = new RedisTemplate<>();
         // 配置连接工厂
@@ -49,14 +43,6 @@ public class RedisConfig extends CachingConfigurerSupport {
         om.enableDefaultTyping(ObjectMapper.DefaultTyping.NON_FINAL);
         jacksonSeial.setObjectMapper(om);
         StringRedisSerializer stringSerial = new StringRedisSerializer();
-        // redis key 序列化方式使用stringSerial
-//        template.setKeySerializer(stringSerial);
-        // redis value 序列化方式使用jackson
-//        template.setValueSerializer(jacksonSeial);
-        // redis hash key 序列化方式使用stringSerial
-//        template.setHashKeySerializer(stringSerial);
-        // redis hash value 序列化方式使用jackson
-//        template.setHashValueSerializer(jacksonSeial);
 
         template.setKeySerializer(RedisSerializer.string());
         template.setValueSerializer(RedisSerializer.json());
@@ -65,12 +51,11 @@ public class RedisConfig extends CachingConfigurerSupport {
 
         template.afterPropertiesSet();
 //        redisTemplate = template;
-        redisTemplate = template;
         return template;
     }
 
-    @Bean("cacheManager")
-    public CacheManager cacheManager(@Autowired RedisTemplate<String, Object> redisTemplate) {
+//    @Bean("cacheManager")
+    public CacheManager cacheManager(RedisTemplate<String, Object> redisTemplate) {
         RedisCacheConfiguration defaultCacheConfiguration =
                 RedisCacheConfiguration
                         .defaultCacheConfig()

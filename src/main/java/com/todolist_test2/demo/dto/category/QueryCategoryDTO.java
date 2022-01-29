@@ -4,6 +4,7 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 
 /**
@@ -16,5 +17,6 @@ public class QueryCategoryDTO {
 
     @ApiModelProperty(value = "用户ID", required = true, example = "123456")
     @NotNull(message = "userId[{user.id.notnull}]")
+    @Min(value = 1, message = "userId[{user.id.min}]")
     private Integer userId;
 }
