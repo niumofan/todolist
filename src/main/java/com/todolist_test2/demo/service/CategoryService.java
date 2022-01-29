@@ -1,6 +1,5 @@
 package com.todolist_test2.demo.service;
 
-import com.todolist_test2.demo.config.RedisConfig;
 import com.todolist_test2.demo.dao.CategoryDao;
 import com.todolist_test2.demo.dto.category.AddCategoryDTO;
 import com.todolist_test2.demo.dto.category.DelCategoryDTO;
@@ -9,11 +8,8 @@ import com.todolist_test2.demo.dto.category.QueryCategoryDTO;
 import com.todolist_test2.demo.mbg.mapper.CategoryMapper;
 import com.todolist_test2.demo.mbg.model.Category;
 import com.todolist_test2.demo.mbg.model.CategoryExample;
-import com.todolist_test2.demo.utils.RedisTool;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheConfig;
-import org.springframework.cache.annotation.CacheEvict;
-import org.springframework.cache.annotation.CachePut;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -32,6 +28,7 @@ public class CategoryService {
 
     private CategoryDao categoryDao;
 
+    private KafkaService kafkaService;
 
     @Autowired
     public void setCategoryMapper(CategoryMapper categoryMapper) {
@@ -43,25 +40,37 @@ public class CategoryService {
         this.categoryDao = categoryDao;
     }
 
-    @CacheEvict(key = "#categoryDTO.userId")
+    @Autowired
+    public void setKafkaService(KafkaService kafkaService) {
+        this.kafkaService = kafkaService;
+    }
+
     public Category addCategory(AddCategoryDTO categoryDTO) {
         Category category = new Category(null, categoryDTO.getUserId(), categoryDTO.getName());
-        categoryMapper.insert(category);
+        int i = categoryMapper.insert(category);
+        if (i > 0) {
+            kafkaService.sendRemoveCache("category::" + categoryDTO.getUserId());
+        }
         return category;
     }
 
-    @CacheEvict(key = "#categoryDTO.userId")
     @Transactional
     public int deleteCategory(DelCategoryDTO categoryDTO) {
-        return categoryDao.deleteCategoryByIds(categoryDTO.getCategoryIds());
+        int i = categoryDao.deleteCategoryByIds(categoryDTO.getCategoryIds());
+        if (i > 0) {
+            kafkaService.sendRemoveCache("category::" + categoryDTO.getUserId());
+        }
+        return i;
     }
 
-    @CacheEvict(key = "#categoryDTO.userId")
     public Category modifyCategory(ModifyCategoryDTO categoryDTO) {
         Category category = new Category();
         category.setId(categoryDTO.getId());
         category.setName(categoryDTO.getName());
-        categoryMapper.updateByPrimaryKeySelective(category);
+        int i = categoryMapper.updateByPrimaryKeySelective(category);
+        if (i > 0) {
+            kafkaService.sendRemoveCache("category::" + categoryDTO.getUserId());
+        }
         return category;
     }
 

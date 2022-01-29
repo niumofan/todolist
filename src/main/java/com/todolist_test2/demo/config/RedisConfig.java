@@ -30,6 +30,10 @@ public class RedisConfig extends CachingConfigurerSupport {
 
     public static RedisTemplate<String, Object> redisTemplate;
 
+    public static RedisTemplate<String, Object> getRedisTemplate() {
+        return redisTemplate;
+    }
+
     @Bean(name = "redisTemplate")
     public RedisTemplate<String, Object> redisTemplate(@Autowired RedisConnectionFactory factory) {
         // 创建RedisTemplate<String, Object>对象

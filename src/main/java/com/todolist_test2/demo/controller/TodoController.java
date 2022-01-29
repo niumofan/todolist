@@ -25,8 +25,12 @@ import java.util.List;
 @RequestMapping("/todo")
 public class TodoController {
 
-    @Autowired
     private TodoService todoService;
+
+    @Autowired
+    public void setTodoService(TodoService todoService) {
+        this.todoService = todoService;
+    }
 
     @ApiOperation(value = "添加一个待办事项",
             notes = "可添加重复事项\n\n" +
