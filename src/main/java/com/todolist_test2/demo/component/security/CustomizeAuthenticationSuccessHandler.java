@@ -1,10 +1,14 @@
 package com.todolist_test2.demo.component.security;
 
 import com.alibaba.fastjson.JSON;
+import com.todolist_test2.demo.entity.AccessToken;
+import com.todolist_test2.demo.entity.CacheUser;
 import com.todolist_test2.demo.entity.SecurityUser;
 import com.todolist_test2.demo.mbg.model.User;
 import com.todolist_test2.demo.service.UserService;
 import com.todolist_test2.demo.service.impl.UserServiceImpl;
+import com.todolist_test2.demo.utils.JwtUtil;
+import com.todolist_test2.demo.utils.RedisService;
 import com.todolist_test2.demo.utils.ResultTool;
 import com.todolist_test2.demo.vo.JsonResult;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,7 +33,13 @@ import java.util.Date;
 public class CustomizeAuthenticationSuccessHandler implements AuthenticationSuccessHandler {
 
     @Autowired
-    UserService userService;
+    private UserService userService;
+
+    @Autowired
+    private RedisService redisService;
+
+    @Autowired
+    private JwtUtil jwtUtil;
 
     @Override
     public void onAuthenticationSuccess(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, Authentication authentication) throws IOException, ServletException {
@@ -45,8 +55,14 @@ public class CustomizeAuthenticationSuccessHandler implements AuthenticationSucc
         //此处还可以进行一些处理，比如登录成功之后可能需要返回给前台当前用户有哪些菜单权限，
         //进而前台动态的控制菜单的显示等，具体根据自己的业务需求进行扩展
 
+//        user.setPassword(null);
+
+        redisService.set("user::" + user.getUsername(), new CacheUser(securityUser));
+
+        AccessToken accessToken = jwtUtil.createToken(securityUser);
+
         //返回json数据
-        JsonResult<Object> result = ResultTool.success(user);
+        JsonResult<Object> result = ResultTool.success(accessToken);
         user.setPassword(null);
         //处理编码方式，防止中文乱码的情况
         httpServletResponse.setContentType("text/json;charset=utf-8");

@@ -64,3 +64,4 @@ swagger:
   license-url: https://www.apache.org/licenses/LICENSE-2.0.html
   base-package: com.todolist_test2.demo
   base-path: /**
+

@@ -28,6 +28,7 @@ public class CustomizeAuthenticationFailureHandler implements AuthenticationFail
             result = ResultTool.fail(ResultCode.USER_ACCOUNT_EXPIRED);
         } else if (e instanceof BadCredentialsException) {
             //密码错误
+            System.out.println(e.getMessage());
             result = ResultTool.fail(ResultCode.USER_CREDENTIALS_ERROR);
         } else if (e instanceof CredentialsExpiredException) {
             //密码过期
