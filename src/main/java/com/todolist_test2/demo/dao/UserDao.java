@@ -13,7 +13,7 @@ import java.util.List;
 @Mapper
 public interface UserDao {
 
-    List<Permission> selectPermissionsByUserId(Integer userId);
+    List<String> selectRolesOfUser(Integer userId);
 
     User loadUserByUsername(String username);
 }

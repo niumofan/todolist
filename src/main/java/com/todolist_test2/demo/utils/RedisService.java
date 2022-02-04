@@ -17,13 +17,6 @@ import java.util.concurrent.TimeUnit;
 @Service
 public class RedisService {
 
-//    public static RedisTemplate<String, Object> redisTemplate;
-//
-//    static {
-//        redisTemplate = RedisConfig.redisTemplate;
-//        System.out.println(redisTemplate);
-//    }
-
     private RedisTemplate<String, Object> redisTemplate;
 
 

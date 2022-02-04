@@ -10,6 +10,8 @@ import com.todolist_test2.demo.utils.ResultTool;
 import com.todolist_test2.demo.vo.JsonResult;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
+import org.apache.shiro.authz.annotation.RequiresRoles;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -20,6 +22,8 @@ import java.util.List;
  * @author nmf
  * @date 2021年11月10日 11:44
  */
+
+@RequiresRoles(value = {"ROLE_COMMON_USER"})
 @Api(tags = {"待办"}, description = "待办事项相关接口")
 @RestController
 @RequestMapping("/todo")

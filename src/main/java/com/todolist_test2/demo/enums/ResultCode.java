@@ -31,6 +31,7 @@ public enum ResultCode {
     USER_ACCOUNT_NOT_EXIST(2007, "账号不存在"),
     USER_ACCOUNT_ALREADY_EXIST(2008, "账号已存在"),
     USER_ACCOUNT_USE_BY_OTHERS(2009, "账号下线"),
+    AUTHENTICATION_ERROR(2010, "认证失败"),
 
     /* 业务错误 */
     NO_PERMISSION(3001, "没有权限"),
@@ -38,6 +39,8 @@ public enum ResultCode {
     /* 数据库错误 */
     DUPLICATE_ENTRY(4001, "存在重复项"),
 
+    /* token错误 */
+    REFRESH_TOKEN_INVALID(5001, "refreshToken已过期或失效")
     ;
 
 

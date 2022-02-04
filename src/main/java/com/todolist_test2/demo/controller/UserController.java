@@ -1,7 +1,10 @@
 package com.todolist_test2.demo.controller;
 
-import com.todolist_test2.demo.dto.UserLoginDTO;
-import com.todolist_test2.demo.dto.UserRegisterDTO;
+import com.todolist_test2.demo.dto.user.UserLoginDTO;
+import com.todolist_test2.demo.dto.user.UserRegisterDTO;
+import com.todolist_test2.demo.enums.ResultCode;
+import com.todolist_test2.demo.mbg.model.User;
+import com.todolist_test2.demo.service.TokenService;
 import com.todolist_test2.demo.service.UserService;
 import com.todolist_test2.demo.utils.ResultTool;
 import com.todolist_test2.demo.vo.JsonResult;
@@ -14,6 +17,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
+import java.util.Map;
+
 /**
  * @author nmf
  * @date 2021年11月02日 18:12
@@ -22,14 +28,28 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 public class UserController {
 
-    @Autowired
     private UserService userService;
+
+    private TokenService tokenService;
+
+    @Autowired
+    public void setUserService(UserService userService) {
+        this.userService = userService;
+    }
+
+
+    @Autowired
+    public void setTokenService(TokenService tokenService) {
+        this.tokenService = tokenService;
+    }
+
+
 
     @PostMapping("/register")
     public JsonResult<String> register(@Validated @RequestBody UserRegisterDTO userRegisterDTO) {
         System.out.println(userRegisterDTO);
-//        int i = userService.registerUser(userRegisterDTO);
-        int i = 1;
+        int i = userService.registerUser(userRegisterDTO);
+//        int i = 1;
         if (i == 1) {
             return new JsonResult<>(true, "创建成功");
         } else {
@@ -38,35 +58,28 @@ public class UserController {
     }
 
     @PostMapping("/login")
-    public String login(@RequestBody UserLoginDTO userDTO) {
+    public JsonResult<Object> login(@RequestBody UserLoginDTO userDTO) {
 
         String username = userDTO.getUsername();
         String password = userDTO.getPassword();
-        Boolean rememberMe = userDTO.getRememberMe();
 
         // 从SecurityUtils里边创建一个 subject
         Subject subject = SecurityUtils.getSubject();
+
         // 在认证提交前准备 token（令牌）
-        UsernamePasswordToken token = new UsernamePasswordToken(username, password, rememberMe);
+        UsernamePasswordToken token = new UsernamePasswordToken(username, password);
+
         // 执行认证登陆
-        try {
-            subject.login(token);
-        } catch (UnknownAccountException uae) {
-            return "未知账户";
-        } catch (IncorrectCredentialsException ice) {
-            return "密码不正确";
-        } catch (LockedAccountException lae) {
-            return "账户已锁定";
-        } catch (ExcessiveAttemptsException eae) {
-            return "用户名或密码错误次数过多";
-        } catch (AuthenticationException ae) {
-            return "用户名或密码不正确！";
-        }
+        subject.login(token);
         if (subject.isAuthenticated()) {
-            return "登录成功";
+            User user = (User) subject.getPrincipal();
+            String[] jwtTokenPair = tokenService.generateTokenPair(user);
+            Map<String, String> res = new HashMap<>();
+            res.put("accessToken", jwtTokenPair[0]);
+            res.put("refreshToken", jwtTokenPair[1]);
+            return ResultTool.success(res);
         } else {
-            token.clear();
-            return "登录失败";
+            return ResultTool.fail(ResultCode.AUTHENTICATION_ERROR);
         }
     }
 

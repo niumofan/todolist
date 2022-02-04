@@ -8,6 +8,8 @@ import com.todolist_test2.demo.utils.ResultTool;
 import com.todolist_test2.demo.vo.JsonResult;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
+import org.apache.shiro.authz.annotation.RequiresRoles;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -37,6 +39,7 @@ public class FocusController {
         return ResultTool.success(focus);
     }
 
+    @RequiresRoles(value = {"ROLE_COMMON_USER"})
     @ApiOperation(value = "获取满足所有条件的专注记录", notes = "todoId, categoryId, userId有且只有一个能被赋值;")
     @PostMapping("queryFocus")
     public JsonResult<List<Focus>> queryFocus(@RequestBody @Validated QueryFocusDTO focusDTO) {

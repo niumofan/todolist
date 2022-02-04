@@ -1,4 +1,4 @@
-package com.todolist_test2.demo.dto;
+package com.todolist_test2.demo.dto.user;
 
 
 import javax.validation.constraints.NotBlank;
