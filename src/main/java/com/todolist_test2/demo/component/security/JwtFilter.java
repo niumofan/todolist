@@ -38,6 +38,8 @@ public class JwtFilter extends BasicHttpAuthenticationFilter {
     protected void postHandle(ServletRequest request, ServletResponse response) {
         // 添加跨域支持
         this.fillCorsHeader(WebUtils.toHttp(request), WebUtils.toHttp(response));
+
+        
     }
 
     /**

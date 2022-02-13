@@ -1,5 +1,6 @@
 package com.todolist_test2.demo.component.security;
 
+import com.todolist_test2.demo.component.UserContext;
 import com.todolist_test2.demo.entity.JwtToken;
 import com.todolist_test2.demo.mbg.model.User;
 import com.todolist_test2.demo.service.TokenService;
@@ -23,7 +24,7 @@ public class JwtRealm extends AuthorizingRealm {
     private UserService userService;
 
     @Autowired
-    private RedisService redisService;
+    private UserContext userContext;
 
     @Autowired
     private TokenService tokenService;
@@ -54,6 +55,9 @@ public class JwtRealm extends AuthorizingRealm {
 
         // 查询数据库获取用户信息
         User user = JwtUtils.getUserFromToken(jwtToken.getToken());
+
+        userContext.setUserId(user.getId());
+        userContext.setUsername(user.getUsername());
 
         return new SimpleAuthenticationInfo(user, username, getName());
 //        return null;

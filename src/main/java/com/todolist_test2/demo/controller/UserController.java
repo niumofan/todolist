@@ -45,12 +45,10 @@ public class UserController {
     }
 
 
-
     @PostMapping("/register")
     public JsonResult<String> register(@Validated @RequestBody UserRegisterDTO userRegisterDTO) {
         System.out.println(userRegisterDTO);
         int i = userService.registerUser(userRegisterDTO);
-//        int i = 1;
         if (i == 1) {
             return new JsonResult<>(true, "创建成功");
         } else {
@@ -84,10 +82,11 @@ public class UserController {
         }
     }
 
-//    @PostMapping("getUser")
-//    public JsonResult<Object> getUser() {
-//        return ResultTool.success(SecurityContextHolder.getContext().getAuthentication());
-//    }
+    @PostMapping("/user/getUser")
+    public JsonResult<User> getUser() {
+        User user = userService.getUser();
+        return ResultTool.success(user);
+    }
 
     @PostMapping("/user/uploadImage")
     public JsonResult<String> uploadImage(@RequestBody ImageDTO imageDTO) {

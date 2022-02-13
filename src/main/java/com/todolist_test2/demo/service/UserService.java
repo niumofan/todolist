@@ -1,5 +1,6 @@
 package com.todolist_test2.demo.service;
 
+import com.todolist_test2.demo.component.UserContext;
 import com.todolist_test2.demo.dao.UserDao;
 import com.todolist_test2.demo.dto.user.ImageDTO;
 import com.todolist_test2.demo.dto.user.UserRegisterDTO;
@@ -28,9 +29,12 @@ import java.util.Set;
 @Service
 public class UserService {
 
+
     private UserMapper userMapper;
 
     private UserDao userDao;
+
+    private UserContext userContext;
 
     @Autowired
     public void setUserMapper(UserMapper userMapper) {
@@ -42,6 +46,10 @@ public class UserService {
         this.userDao = userDao;
     }
 
+    @Autowired
+    public void setUserContext(UserContext userContext) {
+        this.userContext = userContext;
+    }
 
     public User loadUserByUsername(String username) {
 
@@ -97,7 +105,11 @@ public class UserService {
         return userMapper.updateByPrimaryKey(user);
     }
 
-//    public User getUser()
+    public User getUser() {
+        Integer userId = userContext.getUserId();
+
+        return userMapper.selectByPrimaryKey(userId);
+    }
 
     public String uploadImage(ImageDTO imageDTO) {
 

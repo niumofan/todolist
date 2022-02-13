@@ -55,13 +55,21 @@ spring:
 mybatis:
   configuration:
     map-underscore-to-camel-case: true
-    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+#    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
   mapper-locations: classpath:mapper/*.xml, classpath:dao/*.xml, classpath:mybatis/mapping/**/*.xml
 
 
 swagger:
   title: 工程实践
-  description: 工程实践接口文档
+  description: |
+    除了登录、注册接口不需要鉴权，其余接口都需要鉴权，所以需要在请求头部Header里设置TOKEN值，TOKEN值为登录接口返回值中的‘accessToken’。
+    ‘accessToken’有效期为1天。’refreshToken‘用于获取新的accessToken，refreshToken有效期为2天。
+    也就是说：
+      ①在1天内，accessToken有效，用户无需重新登录。
+      ②在1~2天内，accessToken失效，refreshToken有效，前端可通过refreshToken获取新的accessToken(调用/token/refresh接口),用户无需重新登录
+      ③在2天以上，accessToken、refreshToken均失效，用户需要重新登录，以获取新的accessToken和refreshToken
+
+    在此页中，可在’Authorize‘中设置accessToken来完成授权。
   license: Apache License, Version 2.0
   license-url: https://www.apache.org/licenses/LICENSE-2.0.html
   base-package: com.todolist_test2.demo

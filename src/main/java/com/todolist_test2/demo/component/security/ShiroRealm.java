@@ -1,5 +1,6 @@
 package com.todolist_test2.demo.component.security;
 
+import com.todolist_test2.demo.component.UserContext;
 import com.todolist_test2.demo.mbg.model.User;
 import com.todolist_test2.demo.service.UserService;
 import org.apache.shiro.SecurityUtils;
@@ -17,6 +18,7 @@ public class ShiroRealm extends AuthorizingRealm {
 
     @Autowired
     private UserService userService;
+
 
     /**
      * 限定这个 Realm 只处理 UsernamePasswordToken
