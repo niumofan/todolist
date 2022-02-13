@@ -2,10 +2,12 @@ package com.todolist_test2.demo.mbg.mapper;
 
 import com.todolist_test2.demo.mbg.model.Api;
 import com.todolist_test2.demo.mbg.model.ApiExample;
+import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
+@Mapper
 public interface ApiMapper {
     long countByExample(ApiExample example);
 

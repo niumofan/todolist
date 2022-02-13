@@ -108,6 +108,7 @@ public class TodoService {
             }
             calendar.add(Calendar.DATE, 1);
         }
+        System.out.println(todos);
         todoDao.insertTodos(todos);
         return todos;
     }
@@ -156,7 +157,6 @@ public class TodoService {
         return 0;
     }
 
-    @Cacheable()
     public List<Todo> queryTodos(QueryTodoDTO todoDTO) {
         return todoDao.queryTodos(todoDTO);
     }

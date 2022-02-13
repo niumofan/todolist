@@ -1,15 +1,21 @@
 package com.todolist_test2.demo.service;
 
 import com.todolist_test2.demo.dao.UserDao;
+import com.todolist_test2.demo.dto.user.ImageDTO;
 import com.todolist_test2.demo.dto.user.UserRegisterDTO;
 import com.todolist_test2.demo.mbg.mapper.UserMapper;
 import com.todolist_test2.demo.mbg.model.User;
 import com.todolist_test2.demo.mbg.model.UserExample;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.system.ApplicationHome;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import sun.misc.BASE64Decoder;
 
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.OutputStream;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
@@ -40,7 +46,6 @@ public class UserService {
     public User loadUserByUsername(String username) {
 
         if (username == null || "".equals(username)) {
-//            throw new UsernameNotFoundException("异常");
             return null;
         }
 
@@ -51,8 +56,7 @@ public class UserService {
             throw new RuntimeException("用户不存在");
         }
 
-        User user = userList.get(0);
-        return user;
+        return userList.get(0);
     }
 
     public Set<String> getRolesOfUser(User user) {
@@ -94,4 +98,70 @@ public class UserService {
     }
 
 //    public User getUser()
+
+    public String uploadImage(ImageDTO imageDTO) {
+
+        String base64Data = imageDTO.getBase64Image();
+        Integer userId = imageDTO.getUserId();
+
+        String format = "";  // base64格式前头
+        String data = "";  // 实体部分数据
+        if(base64Data==null||"".equals(base64Data)){
+            return "上传失败，上传图片数据为空";
+        }else {
+            String [] d = base64Data.split("base64,");//将字符串分成数组
+            if(d.length == 2){
+                format = d[0];
+                data = d[1];
+            }else {
+                return "上传失败，数据不合法";
+            }
+        }
+        String suffix = "";  // 图片后缀，用以识别哪种格式数据
+
+        //data:image/jpeg;base64,base64编码的jpeg图片数据
+        if("data:image/jpeg;".equalsIgnoreCase(format)){
+            suffix = ".jpg";
+        }else if("data:image/x-icon;".equalsIgnoreCase(format)){
+            //data:image/x-icon;base64,base64编码的icon图片数据
+            suffix = ".ico";
+        }else if("data:image/gif;".equalsIgnoreCase(format)){
+            //data:image/gif;base64,base64编码的gif图片数据
+            suffix = ".gif";
+        }else if("data:image/png;".equalsIgnoreCase(format)){
+            //data:image/png;base64,base64编码的png图片数据
+            suffix = ".png";
+        }else {
+            return "上传图片格式不合法";
+        }
+
+        String tempFileName="" + userId + suffix;
+        String imgFilePath = "classpath:/static/headIcon/" + tempFileName;  //新生成的图片
+        BASE64Decoder decoder = new BASE64Decoder();
+        try {
+            //Base64解码
+            byte[] b = decoder.decodeBuffer(data);
+            for (int i = 0; i < b.length; i++) {
+                if (b[i] < 0) {
+                    //调整异常数据
+                    b[i] += 256;
+                }
+            }
+            String dir = new ApplicationHome(getClass()).getSource().getParentFile().toString();
+            String relativePath = "/static/headIcon" + tempFileName;
+            System.out.println();
+            OutputStream out = new FileOutputStream(dir + relativePath);
+            out.write(b);
+            out.flush();
+            out.close();
+
+            User user = new User();
+            user.setId(userId);
+            user.setHeadIcon(relativePath);
+            userMapper.updateByPrimaryKeySelective(user);
+            return null;
+        } catch ( IOException e) {
+            return "上传图片失败";
+        }
+    }
 }

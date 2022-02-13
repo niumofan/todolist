@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.todolist_test2.demo.dao.StatisticDao">
+    <select id="queryCompletionOfCategory" resultType="java.util.Map">
+        SELECT category_id AS categoryId,
+               MIN(DISTINCT category_name) AS categoryName,
+               COUNT(CASE WHEN state = 2 THEN 1 END) AS complete,
+               COUNT(1) AS total
+        FROM b_todo
+        WHERE user_id = #{userId}
+          AND start_time BETWEEN #{startTime} AND #{endTime}
+        GROUP BY category_id
+    </select>
+</mapper>

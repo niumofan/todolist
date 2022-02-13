@@ -33,7 +33,7 @@ public class JwtUtils {
     public static final String SECRET = "SECRET_VALUE";
 
     // 请求头
-    public static final String AUTH_HEADER = "X-Authorization-With";
+    public static final String AUTH_HEADER = "TOKEN";
 
     private static RedisService redisService;
 

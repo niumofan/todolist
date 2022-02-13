@@ -2,11 +2,11 @@ spring:
   application:
     name: TodoList后端
   datasource:
-    password: Mama13623717782
-    username: nmf
-    driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://rm-uf6d34064973z54jy0o.mysql.rds.aliyuncs.com:3306/todolist_test2?useUnicode=true&characterEncoding=utf-8&serverTimezone=Asia/Shanghai&useSSL=false
-    type: com.alibaba.druid.pool.DruidDataSource
+#    password: Mama13623717782
+#    username: nmf
+#    driver-class-name: com.mysql.cj.jdbc.Driver
+#    url: jdbc:mysql://rm-uf6d34064973z54jy0o.mysql.rds.aliyuncs.com:3306/todolist_test2?useUnicode=true&characterEncoding=utf-8&serverTimezone=Asia/Shanghai&useSSL=false
+#    type: com.alibaba.druid.pool.DruidDataSource
     druid:
       initial-size: 5
       min-idle: 5
@@ -29,7 +29,7 @@ spring:
     date-format: yyyy-MM-dd HH:mm:ss
     time-zone: GMT+8
   kafka:
-    bootstrap-servers: 106.15.177.150:9092, 106.15.177.150:9093
+    bootstrap-servers: 106.15.177.150:9092
     producer:
       retries: 0
       batch-size: 16384
@@ -55,6 +55,7 @@ spring:
 mybatis:
   configuration:
     map-underscore-to-camel-case: true
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
   mapper-locations: classpath:mapper/*.xml, classpath:dao/*.xml, classpath:mybatis/mapping/**/*.xml
 
 

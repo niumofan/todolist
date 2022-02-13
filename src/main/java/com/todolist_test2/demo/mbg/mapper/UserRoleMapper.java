@@ -2,10 +2,11 @@ package com.todolist_test2.demo.mbg.mapper;
 
 import com.todolist_test2.demo.mbg.model.UserRole;
 import com.todolist_test2.demo.mbg.model.UserRoleExample;
+import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
-
+@Mapper
 public interface UserRoleMapper {
     long countByExample(UserRoleExample example);
 

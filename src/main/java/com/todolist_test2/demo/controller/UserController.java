@@ -1,5 +1,6 @@
 package com.todolist_test2.demo.controller;
 
+import com.todolist_test2.demo.dto.user.ImageDTO;
 import com.todolist_test2.demo.dto.user.UserLoginDTO;
 import com.todolist_test2.demo.dto.user.UserRegisterDTO;
 import com.todolist_test2.demo.enums.ResultCode;
@@ -24,7 +25,7 @@ import java.util.Map;
  * @author nmf
  * @date 2021年11月02日 18:12
  */
-@Api(tags = {"用户"}, description = "用户相关接口(登陆注册接口不一定能用，可以试试)")
+@Api(tags = {"用户"}, description = "用户相关接口")
 @RestController
 public class UserController {
 
@@ -87,4 +88,14 @@ public class UserController {
 //    public JsonResult<Object> getUser() {
 //        return ResultTool.success(SecurityContextHolder.getContext().getAuthentication());
 //    }
+
+    @PostMapping("/user/uploadImage")
+    public JsonResult<String> uploadImage(@RequestBody ImageDTO imageDTO) {
+        String s = userService.uploadImage(imageDTO);
+        if (s != null) {
+            return ResultTool.fail(s);
+        } else {
+            return ResultTool.success("OK");
+        }
+    }
 }

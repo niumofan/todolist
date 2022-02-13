@@ -94,7 +94,7 @@ CREATE TABLE `b_todo` (
     alarm_time DATETIME COMMENT '提醒时间',
     state TINYINT NOT NULL COMMENT '状态。1->待办: 到期前还没做; 2->完成: 到期前完成了; 3->失败: 到期时没有完成',
     subtodos VARCHAR(1024) COMMENT '子待办事项，以json形式存储([{state:1, content:"todo1"},{...}])',
-    repetition Long NOT NULL DEFAULT 0 COMMENT '重复标识',
+    repetition BIGINT NOT NULL DEFAULT 0 COMMENT '重复标识',
     INDEX(user_id),
     INDEX(category_id)
 ) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '待办事项表' ROW_FORMAT = Dynamic;

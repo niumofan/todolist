@@ -19,9 +19,9 @@ public class TokenService {
 
     private static final String INVALID_TOKEN = "token:invalid";
 
-    private static final long ACCESS_EXPIRE_TIME = 20 * 60 * 1000;
+    private static final long ACCESS_EXPIRE_TIME = 1440 * 60 * 1000;
 
-    private static final long REFRESH_EXPIRE_TIME = 40 * 60 * 1000;
+    private static final long REFRESH_EXPIRE_TIME = 2880 * 60 * 1000;
 
     private UserDao userDao;
 
@@ -43,10 +43,14 @@ public class TokenService {
     public String[] generateTokenPair(User user) {
 
         /* 生成accessToken */
+        long time = System.currentTimeMillis();
         String accessToken = generateAccessToken(user);
+        System.out.println("accessToken: " + (System.currentTimeMillis() - time));
 
         /* 生成refreshToken */
+        time = System.currentTimeMillis();
         String refreshToken = generateRefreshToken(user);
+        System.out.println("accessToken: " + (System.currentTimeMillis() - time));
 
         /* 保存到redis */
         redisService.set(REDIS_PREFIX + refreshToken, accessToken, REFRESH_EXPIRE_TIME / 1000);
