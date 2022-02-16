@@ -10,7 +10,6 @@ import com.todolist_test2.demo.utils.ResultTool;
 import com.todolist_test2.demo.vo.JsonResult;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.apache.shiro.authz.annotation.RequiresRoles;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
@@ -41,9 +40,14 @@ public class TodoController {
                     "repetition为一个字节,第 i 位表示星期 i 是否重复待办事项。i=0为星期日，i=1为星期一, ..., i=6为星期六)\n" +
                     "如:\n\t5->0b00000101 (在 startTime ~ endTime 时间段内, 每周日和每周二重复待办)\n\t0 (只在 startTime 当天生效)")
     @PostMapping("addTodo")
-    public JsonResult<List<Todo>> addTodo(@RequestBody @Validated AddTodoDTO todoDTO) {
+    public JsonResult<Object> addTodo(@RequestBody @Validated AddTodoDTO todoDTO) {
         System.out.println(todoDTO);
-        return ResultTool.success(todoService.addTodo(todoDTO));
+        Byte rep = todoDTO.getRepetition();
+        if (rep == null || rep == 0) {
+            return ResultTool.success(todoService.addSingleTodo(todoDTO));
+        } else {
+            return ResultTool.success(todoService.addRepeatedTodo(todoDTO));
+        }
     }
 
     @ApiOperation(value = "删除一个或多个待办事项")

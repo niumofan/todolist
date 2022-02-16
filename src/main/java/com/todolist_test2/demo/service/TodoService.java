@@ -13,7 +13,6 @@ import com.todolist_test2.demo.mbg.model.Todo;
 import com.todolist_test2.demo.mbg.model.TodoExample;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -42,22 +41,40 @@ public class TodoService {
         this.todoDao = todoDao;
     }
 
-    /* 添加待办 */
-    public List<Todo> addTodo(AddTodoDTO todoDTO) {
+    /* 添加非重复待办 */
+    public Todo addSingleTodo(AddTodoDTO todoDTO) {
+
+
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(todoDTO.getStartTime());
+
+        Todo todo = new Todo();
+        BeanUtils.copyProperties(todoDTO, todo);
+        todo.setStartTime(calendar.getTime());
+        todo.setState(TodoState.TODO.getCode().byteValue());
+        todo.setSubtodos(initSubtodos(todoDTO.getSubtodos()));
+        todo.setRepetition(System.currentTimeMillis());
+
+        /* 若有闹钟 */
+        List<Calendar> alarmTimeList = alarmStrToCalendar(todoDTO.getAlarmTime());
+
+        DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+
+        /* 有闹钟时，年月日设置为开始时间start_time，时分秒与传入的alarm_time参数相同 */
+        updateAlarmTime(calendar, alarmTimeList, df, todo);
+
+        calendar.add(Calendar.DATE, 1);
+
+        todoMapper.insert(todo);
+        return todo;
+    }
+
+    /* 添加重复待办 */
+    public List<Todo> addRepeatedTodo(AddTodoDTO todoDTO) {
         List<Todo> todos = new ArrayList<>();
 
         /* 设置子任务状态为待办 */
-        List<Subtodo> subtodoList;
-        String subtodos = todoDTO.getSubtodos();
-        if (subtodos == null || subtodos.length() == 0) {
-            subtodoList = new ArrayList<>(0);
-        } else {
-            subtodoList = JSON.parseArray(subtodos, Subtodo.class);
-        }
-        for (Subtodo subtodo: subtodoList) {
-            subtodo.setState(TodoState.TODO);
-        }
-        subtodos = JSON.toJSONString(subtodoList);
+        String subtodos = initSubtodos(todoDTO.getSubtodos());
 
         /* 判断星期几重复待办 */
         boolean[] flag = new boolean[7];
@@ -73,21 +90,13 @@ public class TodoService {
         calendar.setTime(todoDTO.getStartTime());
         Calendar endCalendar = Calendar.getInstance();
         endCalendar.setTime(todoDTO.getEndTime());
+        endCalendar.add(Calendar.SECOND, 1);
 
         /* 将当前时间作为repetition标识 */
         Long rep = System.currentTimeMillis();
 
-        /* 若有闹钟 */
-        List<Calendar> alarmTimeList = null;
-        List<Date> dates = JSON.parseArray(todoDTO.getAlarmTime(), Date.class);
-        if (dates.size() > 0) {
-            alarmTimeList = new ArrayList<>();
-            for (Date time: dates) {
-                Calendar c = Calendar.getInstance();
-                c.setTime(time);
-                alarmTimeList.add(c);
-            }
-        }
+        /* 若有闹钟,转换为闹钟列表 */
+        List<Calendar> alarmTimeList = alarmStrToCalendar(todoDTO.getAlarmTime());
 
         DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         while (calendar.before(endCalendar)) {
@@ -98,25 +107,29 @@ public class TodoService {
                 todo.setState(TodoState.TODO.getCode().byteValue());
                 todo.setRepetition(rep);
                 todo.setSubtodos(subtodos);
+
                 /* 有闹钟时，年月日设置为开始时间start_time，时分秒与传入的alarm_time参数相同 */
-                if (alarmTimeList != null) {
-                    List<String> newTime = new ArrayList<>();
-                    for (Calendar alarmTime: alarmTimeList) {
-                        Calendar at = (Calendar) calendar.clone();
-                        at.set(Calendar.HOUR, alarmTime.get(Calendar.HOUR));
-                        at.set(Calendar.MINUTE, alarmTime.get(Calendar.MINUTE));
-                        at.set(Calendar.SECOND, alarmTime.get(Calendar.SECOND));
-                        newTime.add(df.format(at.getTime()));
-                    }
-                    todo.setAlarmTime(JSON.toJSONString(newTime));
-                }
-                System.out.println(todo);
+                updateAlarmTime(calendar, alarmTimeList, df, todo);
                 todos.add(todo);
             }
             calendar.add(Calendar.DATE, 1);
         }
         todoDao.insertTodos(todos);
         return todos;
+    }
+
+    private void updateAlarmTime(Calendar calendar, List<Calendar> alarmTimeList, DateFormat df, Todo todo) {
+        if (alarmTimeList != null) {
+            List<String> newTime = new ArrayList<>();
+            for (Calendar alarmTime: alarmTimeList) {
+                Calendar at = (Calendar) calendar.clone();
+                at.set(Calendar.HOUR, alarmTime.get(Calendar.HOUR));
+                at.set(Calendar.MINUTE, alarmTime.get(Calendar.MINUTE));
+                at.set(Calendar.SECOND, alarmTime.get(Calendar.SECOND));
+                newTime.add(df.format(at.getTime()));
+            }
+            todo.setAlarmTime(JSON.toJSONString(newTime));
+        }
     }
 
     @Transactional
@@ -165,5 +178,33 @@ public class TodoService {
 
     public List<Todo> queryTodos(QueryTodoDTO todoDTO) {
         return todoDao.queryTodos(todoDTO);
+    }
+
+    /* 设置子任务状态为待办 */
+    private String initSubtodos(String subtodos) {
+        List<Subtodo> subtodoList;
+        if (subtodos == null || subtodos.length() == 0) {
+            subtodoList = new ArrayList<>(0);
+        } else {
+            subtodoList = JSON.parseArray(subtodos, Subtodo.class);
+        }
+        for (Subtodo subtodo: subtodoList) {
+            subtodo.setState(TodoState.TODO);
+        }
+        return JSON.toJSONString(subtodoList);
+    }
+
+    private List<Calendar> alarmStrToCalendar(String alarmStr) {
+        List<Calendar> alarmTimeList = null;
+        List<Date> dates = JSON.parseArray(alarmStr, Date.class);
+        if (dates.size() > 0) {
+            alarmTimeList = new ArrayList<>();
+            for (Date time: dates) {
+                Calendar c = Calendar.getInstance();
+                c.setTime(time);
+                alarmTimeList.add(c);
+            }
+        }
+        return alarmTimeList;
     }
 }
