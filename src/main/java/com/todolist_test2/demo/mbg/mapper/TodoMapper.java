@@ -2,11 +2,9 @@ package com.todolist_test2.demo.mbg.mapper;
 
 import com.todolist_test2.demo.mbg.model.Todo;
 import com.todolist_test2.demo.mbg.model.TodoExample;
-import org.apache.ibatis.annotations.Mapper;
+import java.util.List;
 import org.apache.ibatis.annotations.Param;
 
-import java.util.List;
-@Mapper
 public interface TodoMapper {
     long countByExample(TodoExample example);
 

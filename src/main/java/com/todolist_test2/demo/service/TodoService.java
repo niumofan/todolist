@@ -17,10 +17,9 @@ import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Calendar;
-import java.util.List;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 /**
  * @author nmf
@@ -79,15 +78,18 @@ public class TodoService {
         Long rep = System.currentTimeMillis();
 
         /* 若有闹钟 */
-        Calendar alarmTime;
-        if (todoDTO.getAlarmTime() != null) {
-            alarmTime = Calendar.getInstance();
-            alarmTime.setTime(todoDTO.getAlarmTime());
-        } else {
-            alarmTime = null;
+        List<Calendar> alarmTimeList = null;
+        List<Date> dates = JSON.parseArray(todoDTO.getAlarmTime(), Date.class);
+        if (dates.size() > 0) {
+            alarmTimeList = new ArrayList<>();
+            for (Date time: dates) {
+                Calendar c = Calendar.getInstance();
+                c.setTime(time);
+                alarmTimeList.add(c);
+            }
         }
 
-
+        DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         while (calendar.before(endCalendar)) {
             if (flag[calendar.get(Calendar.DAY_OF_WEEK) - 1]) {
                 Todo todo = new Todo();
@@ -97,18 +99,22 @@ public class TodoService {
                 todo.setRepetition(rep);
                 todo.setSubtodos(subtodos);
                 /* 有闹钟时，年月日设置为开始时间start_time，时分秒与传入的alarm_time参数相同 */
-                if (alarmTime != null) {
-                    Calendar at = (Calendar) calendar.clone();
-                    at.set(Calendar.HOUR, alarmTime.get(Calendar.HOUR));
-                    at.set(Calendar.MINUTE, alarmTime.get(Calendar.MINUTE));
-                    at.set(Calendar.SECOND, alarmTime.get(Calendar.SECOND));
-                    todo.setAlarmTime(at.getTime());
+                if (alarmTimeList != null) {
+                    List<String> newTime = new ArrayList<>();
+                    for (Calendar alarmTime: alarmTimeList) {
+                        Calendar at = (Calendar) calendar.clone();
+                        at.set(Calendar.HOUR, alarmTime.get(Calendar.HOUR));
+                        at.set(Calendar.MINUTE, alarmTime.get(Calendar.MINUTE));
+                        at.set(Calendar.SECOND, alarmTime.get(Calendar.SECOND));
+                        newTime.add(df.format(at.getTime()));
+                    }
+                    todo.setAlarmTime(JSON.toJSONString(newTime));
                 }
+                System.out.println(todo);
                 todos.add(todo);
             }
             calendar.add(Calendar.DATE, 1);
         }
-        System.out.println(todos);
         todoDao.insertTodos(todos);
         return todos;
     }

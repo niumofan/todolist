@@ -3,6 +3,8 @@ package com.todolist_test2.demo.service;
 import com.todolist_test2.demo.component.UserContext;
 import com.todolist_test2.demo.dao.UserDao;
 import com.todolist_test2.demo.dto.user.ImageDTO;
+import com.todolist_test2.demo.dto.user.UpdateUserDTO;
+import com.todolist_test2.demo.dto.user.UserInfo;
 import com.todolist_test2.demo.dto.user.UserRegisterDTO;
 import com.todolist_test2.demo.mbg.mapper.UserMapper;
 import com.todolist_test2.demo.mbg.model.User;
@@ -13,14 +15,11 @@ import org.springframework.boot.system.ApplicationHome;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import sun.misc.BASE64Decoder;
+import sun.misc.BASE64Encoder;
 
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.OutputStream;
-import java.util.Date;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.io.*;
+import java.nio.ByteBuffer;
+import java.util.*;
 
 /**
  * @author nmf
@@ -29,6 +28,7 @@ import java.util.Set;
 @Service
 public class UserService {
 
+    private static final int MAX_LENGTH = 1024 * 1024;
 
     private UserMapper userMapper;
 
@@ -101,14 +101,17 @@ public class UserService {
         return userMapper.insertSelective(user);
     }
 
-    public int updateUser(User user) {
-        return userMapper.updateByPrimaryKey(user);
+    public UserInfo updateUser(UpdateUserDTO userDTO) {
+        User user = new User();
+        BeanUtils.copyProperties(userDTO, user);
+        userMapper.updateByPrimaryKeySelective(user);
+        return userDao.loadUserById(userDTO.getId());
     }
 
-    public User getUser() {
-        Integer userId = userContext.getUserId();
+    public UserInfo getUser() {
 
-        return userMapper.selectByPrimaryKey(userId);
+        return userDao.loadUserByUsername(userContext.getUsername());
+
     }
 
     public String uploadImage(ImageDTO imageDTO) {
@@ -133,22 +136,24 @@ public class UserService {
 
         //data:image/jpeg;base64,base64编码的jpeg图片数据
         if("data:image/jpeg;".equalsIgnoreCase(format)){
+            suffix = ".jpeg";
+        } else if ("data:image/jpg;".equalsIgnoreCase(format)){
+            //data:image/x-icon;base64,base64编码的icon图片数据
             suffix = ".jpg";
-        }else if("data:image/x-icon;".equalsIgnoreCase(format)){
+        } else if ("data:image/x-icon;".equalsIgnoreCase(format)){
             //data:image/x-icon;base64,base64编码的icon图片数据
             suffix = ".ico";
-        }else if("data:image/gif;".equalsIgnoreCase(format)){
+        } else if ("data:image/gif;".equalsIgnoreCase(format)){
             //data:image/gif;base64,base64编码的gif图片数据
             suffix = ".gif";
-        }else if("data:image/png;".equalsIgnoreCase(format)){
+        } else if ("data:image/png;".equalsIgnoreCase(format)){
             //data:image/png;base64,base64编码的png图片数据
             suffix = ".png";
-        }else {
+        } else {
             return "上传图片格式不合法";
         }
 
         String tempFileName="" + userId + suffix;
-        String imgFilePath = "classpath:/static/headIcon/" + tempFileName;  //新生成的图片
         BASE64Decoder decoder = new BASE64Decoder();
         try {
             //Base64解码
@@ -160,8 +165,7 @@ public class UserService {
                 }
             }
             String dir = new ApplicationHome(getClass()).getSource().getParentFile().toString();
-            String relativePath = "/static/headIcon" + tempFileName;
-            System.out.println();
+            String relativePath = "/static/headIcon/" + tempFileName;
             OutputStream out = new FileOutputStream(dir + relativePath);
             out.write(b);
             out.flush();
@@ -175,5 +179,55 @@ public class UserService {
         } catch ( IOException e) {
             return "上传图片失败";
         }
+    }
+
+    public String downloadImage() throws IOException {
+
+        /* 获取图片相对路径 */
+        Integer userId = userContext.getUserId();
+        String imagePath = userDao.getImagePath(userId);
+        String dir = new ApplicationHome(getClass()).getSource().getParentFile().toString();
+
+        File file = new File(dir + imagePath);
+        String prefix = getBase64Prefix(file);
+
+        Base64.Encoder encoder = Base64.getEncoder();
+        byte[] buffer = new byte[MAX_LENGTH];
+        InputStream input = new BufferedInputStream(new FileInputStream(dir + imagePath));
+        if (input.available() >= MAX_LENGTH) {
+            input.close();
+            throw new IOException("读取头像文件失败");
+        }
+        int len = input.read(buffer);
+        buffer = Arrays.copyOfRange(buffer, 0, len);
+        if (len == MAX_LENGTH) {
+            input.close();
+            throw new IOException("读取头像文件失败");
+        }
+        input.close();
+        byte[] ans = encoder.encode(buffer);
+        return prefix + (new String(ans));
+    }
+
+    private String getBase64Prefix(File file) throws IOException {
+        String name = file.getName();
+        String format = name.substring(name.lastIndexOf(".") + 1);
+
+        String prefix;
+        if ("jpeg".equalsIgnoreCase(format)) {
+            prefix = "data:image/jpeg;";
+        } else if ("jpg".equalsIgnoreCase(format)) {
+            prefix = "data:image/jpg;";
+        } else if ("ico".equalsIgnoreCase(format)) {
+            prefix = "data:image/x-icon;";
+        } else if ("png".equalsIgnoreCase(format)) {
+            prefix = "data:image/png;";
+        } else if ("gif".equalsIgnoreCase(format)) {
+            prefix = "data:image/gif;";
+        } else {
+            throw new IOException("头像格式不正确，请重新上传头像");
+        }
+        prefix += "base64,";
+        return prefix;
     }
 }

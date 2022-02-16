@@ -40,6 +40,6 @@ public class CustomizeExceptionHandler {
         else if (e instanceof AuthenticationException) {
             return ResultTool.fail(ResultCode.AUTHENTICATION_ERROR);
         }
-        return ResultTool.fail(ResultCode.COMMON_FAIL);
+        return ResultTool.fail(ResultCode.COMMON_FAIL, e.getMessage());
     }
 }

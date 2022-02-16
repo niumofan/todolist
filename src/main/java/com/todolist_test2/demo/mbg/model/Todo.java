@@ -1,8 +1,6 @@
 package com.todolist_test2.demo.mbg.model;
 
-import com.todolist_test2.demo.enums.TodoState;
 import io.swagger.annotations.ApiModelProperty;
-
 import java.io.Serializable;
 import java.util.Date;
 
@@ -28,7 +26,7 @@ public class Todo implements Serializable {
     private Date startTime;
 
     @ApiModelProperty(value = "提醒时间")
-    private Date alarmTime;
+    private String alarmTime;
 
     @ApiModelProperty(value = "状态。1->待办: 到期前还没做; 2->完成: 到期前完成了; 3->失败: 到期时没有完成")
     private Byte state;
@@ -41,7 +39,7 @@ public class Todo implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    public Todo(Integer id, Integer userId, Integer categoryId, String categoryName, String content, Byte priority, Date startTime, Date alarmTime, Byte state, String subtodos, Long repetition) {
+    public Todo(Integer id, Integer userId, Integer categoryId, String categoryName, String content, Byte priority, Date startTime, String alarmTime, Byte state, String subtodos, Long repetition) {
         this.id = id;
         this.userId = userId;
         this.categoryId = categoryId;
@@ -115,11 +113,11 @@ public class Todo implements Serializable {
         this.startTime = startTime;
     }
 
-    public Date getAlarmTime() {
+    public String getAlarmTime() {
         return alarmTime;
     }
 
-    public void setAlarmTime(Date alarmTime) {
+    public void setAlarmTime(String alarmTime) {
         this.alarmTime = alarmTime;
     }
 

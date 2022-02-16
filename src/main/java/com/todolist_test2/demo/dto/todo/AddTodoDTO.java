@@ -1,5 +1,7 @@
 package com.todolist_test2.demo.dto.todo;
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.annotation.JSONField;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
@@ -50,8 +52,8 @@ public class AddTodoDTO {
     @NotNull(message = "endTime[{todo.endTime.notnull}]")
     private Date endTime;
 
-    @ApiModelProperty(value = "闹钟提醒时间(YYYY-MM-DD hh:mm:ss)", example = "2022-05-30 08:55:00", position = 7)
-    private Date alarmTime;
+    @ApiModelProperty(value = "闹钟提醒时间", example = "['2022-05-30 08:55:00','2022-05-30 09:00:00']", position = 7)
+    private String alarmTime;
 
     @ApiModelProperty(value = "子待办事项(json形式)", example = "\"[{'content':'跳绳20min'},{'content':'跑步20min'}]\"",
             position = 8)
@@ -59,4 +61,5 @@ public class AddTodoDTO {
 
     @ApiModelProperty(value = "重复标识", example = "5", position = 9)
     private Byte repetition = 0;
+
 }

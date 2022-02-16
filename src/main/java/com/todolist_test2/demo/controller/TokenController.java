@@ -8,6 +8,7 @@ import com.todolist_test2.demo.vo.JsonResult;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -31,7 +32,7 @@ public class TokenController {
     @ApiOperation(value = "根据refreshToken刷新token，获得新的accessToken和refreshToken",
             notes = "前端检测到accessToken失效或者快失效时再调用此接口")
     @PostMapping("refresh")
-    public JsonResult<Object> refreshToken(@RequestBody RefreshTokenDTO refreshTokenDTO) {
+    public JsonResult<Object> refreshToken(@RequestBody @Validated RefreshTokenDTO refreshTokenDTO) {
         String refreshToken = refreshTokenDTO.getRefreshToken();
         String[] tokenPair = tokenService.refreshToken(refreshToken);
         if (tokenPair == null) {

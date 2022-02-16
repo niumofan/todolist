@@ -40,7 +40,7 @@ public class ModifyTodoDTO {
 
     @ApiModelProperty(value = "闹钟时间", example = "2022-05-30 08:55:00", position = 7)
     @Future(message = "alarmTime[{todo.alarmTime.future}]")
-    private Date alarmTime;
+    private String alarmTime;
 
     @ApiModelProperty(value = "子待办事项列表", example = "[{'content':'跳绳20min'},{'content':'跑步20min'}]", position = 8)
     private String subtodos;

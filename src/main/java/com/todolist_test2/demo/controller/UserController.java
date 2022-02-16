@@ -1,8 +1,6 @@
 package com.todolist_test2.demo.controller;
 
-import com.todolist_test2.demo.dto.user.ImageDTO;
-import com.todolist_test2.demo.dto.user.UserLoginDTO;
-import com.todolist_test2.demo.dto.user.UserRegisterDTO;
+import com.todolist_test2.demo.dto.user.*;
 import com.todolist_test2.demo.enums.ResultCode;
 import com.todolist_test2.demo.mbg.model.User;
 import com.todolist_test2.demo.service.TokenService;
@@ -10,6 +8,7 @@ import com.todolist_test2.demo.service.UserService;
 import com.todolist_test2.demo.utils.ResultTool;
 import com.todolist_test2.demo.vo.JsonResult;
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.*;
 import org.apache.shiro.subject.Subject;
@@ -18,6 +17,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -44,7 +45,7 @@ public class UserController {
         this.tokenService = tokenService;
     }
 
-
+    @ApiOperation(value = "注册")
     @PostMapping("/register")
     public JsonResult<String> register(@Validated @RequestBody UserRegisterDTO userRegisterDTO) {
         System.out.println(userRegisterDTO);
@@ -56,6 +57,7 @@ public class UserController {
         }
     }
 
+    @ApiOperation(value = "登录")
     @PostMapping("/login")
     public JsonResult<Object> login(@RequestBody UserLoginDTO userDTO) {
 
@@ -82,12 +84,21 @@ public class UserController {
         }
     }
 
+    @ApiOperation(value = "获取用户信息")
     @PostMapping("/user/getUser")
-    public JsonResult<User> getUser() {
-        User user = userService.getUser();
+    public JsonResult<UserInfo> getUser() {
+        UserInfo user = userService.getUser();
         return ResultTool.success(user);
     }
 
+    @ApiOperation(value = "更新用户信息")
+    @PostMapping("/user/updateUser")
+    public JsonResult<UserInfo> updateUser(@RequestBody UpdateUserDTO userDTO) {
+        UserInfo user = userService.updateUser(userDTO);
+        return ResultTool.success(user);
+    }
+
+    @ApiOperation(value = "上传用户头像", notes = "头像大小最好控制在100KB以内。支持格式：jpg、png、ico、gif")
     @PostMapping("/user/uploadImage")
     public JsonResult<String> uploadImage(@RequestBody ImageDTO imageDTO) {
         String s = userService.uploadImage(imageDTO);
@@ -96,5 +107,12 @@ public class UserController {
         } else {
             return ResultTool.success("OK");
         }
+    }
+
+    @ApiOperation(value = "获得用户头像", notes = "base64编码后的图像")
+    @PostMapping("/user/downloadImage")
+    public JsonResult<String> downloadImage() throws IOException {
+        String s = userService.downloadImage();
+        return ResultTool.success(s);
     }
 }

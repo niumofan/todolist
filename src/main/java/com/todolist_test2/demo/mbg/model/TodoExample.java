@@ -2,7 +2,6 @@ package com.todolist_test2.demo.mbg.model;
 
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.Iterator;
 import java.util.List;
 
 public class TodoExample {
@@ -556,52 +555,62 @@ public class TodoExample {
             return (Criteria) this;
         }
 
-        public Criteria andAlarmTimeEqualTo(Date value) {
+        public Criteria andAlarmTimeEqualTo(String value) {
             addCriterion("alarm_time =", value, "alarmTime");
             return (Criteria) this;
         }
 
-        public Criteria andAlarmTimeNotEqualTo(Date value) {
+        public Criteria andAlarmTimeNotEqualTo(String value) {
             addCriterion("alarm_time <>", value, "alarmTime");
             return (Criteria) this;
         }
 
-        public Criteria andAlarmTimeGreaterThan(Date value) {
+        public Criteria andAlarmTimeGreaterThan(String value) {
             addCriterion("alarm_time >", value, "alarmTime");
             return (Criteria) this;
         }
 
-        public Criteria andAlarmTimeGreaterThanOrEqualTo(Date value) {
+        public Criteria andAlarmTimeGreaterThanOrEqualTo(String value) {
             addCriterion("alarm_time >=", value, "alarmTime");
             return (Criteria) this;
         }
 
-        public Criteria andAlarmTimeLessThan(Date value) {
+        public Criteria andAlarmTimeLessThan(String value) {
             addCriterion("alarm_time <", value, "alarmTime");
             return (Criteria) this;
         }
 
-        public Criteria andAlarmTimeLessThanOrEqualTo(Date value) {
+        public Criteria andAlarmTimeLessThanOrEqualTo(String value) {
             addCriterion("alarm_time <=", value, "alarmTime");
             return (Criteria) this;
         }
 
-        public Criteria andAlarmTimeIn(List<Date> values) {
+        public Criteria andAlarmTimeLike(String value) {
+            addCriterion("alarm_time like", value, "alarmTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andAlarmTimeNotLike(String value) {
+            addCriterion("alarm_time not like", value, "alarmTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andAlarmTimeIn(List<String> values) {
             addCriterion("alarm_time in", values, "alarmTime");
             return (Criteria) this;
         }
 
-        public Criteria andAlarmTimeNotIn(List<Date> values) {
+        public Criteria andAlarmTimeNotIn(List<String> values) {
             addCriterion("alarm_time not in", values, "alarmTime");
             return (Criteria) this;
         }
 
-        public Criteria andAlarmTimeBetween(Date value1, Date value2) {
+        public Criteria andAlarmTimeBetween(String value1, String value2) {
             addCriterion("alarm_time between", value1, value2, "alarmTime");
             return (Criteria) this;
         }
 
-        public Criteria andAlarmTimeNotBetween(Date value1, Date value2) {
+        public Criteria andAlarmTimeNotBetween(String value1, String value2) {
             addCriterion("alarm_time not between", value1, value2, "alarmTime");
             return (Criteria) this;
         }

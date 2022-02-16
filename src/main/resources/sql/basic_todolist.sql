@@ -91,7 +91,7 @@ CREATE TABLE `b_todo` (
     `content` VARCHAR(32) NOT NULL COMMENT '内容',
     priority TINYINT NOT NULL COMMENT '优先级。1->不紧急；2->一般紧急；3->非常紧急',
     start_time DATETIME NOT NULL COMMENT '待办生效日期',
-    alarm_time DATETIME COMMENT '提醒时间',
+    alarm_time VARCHAR(128) COMMENT '提醒时间',
     state TINYINT NOT NULL COMMENT '状态。1->待办: 到期前还没做; 2->完成: 到期前完成了; 3->失败: 到期时没有完成',
     subtodos VARCHAR(1024) COMMENT '子待办事项，以json形式存储([{state:1, content:"todo1"},{...}])',
     repetition BIGINT NOT NULL DEFAULT 0 COMMENT '重复标识',

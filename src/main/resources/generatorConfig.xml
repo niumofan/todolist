@@ -29,15 +29,15 @@
       <property name="nullCatalogMeansCurrent" value="true" />
     </jdbcConnection>
     <!--指定生成model的路径-->
-    <javaModelGenerator targetPackage="com.todolist_test2.demo.mbg.model" targetProject="src\main\java">
+    <javaModelGenerator targetPackage="com.todolist_test2.demo.mbg.model" targetProject="E:\java_project\mbg">
       <property name="constructorBased" value="true"/>
       <property name="immutable" value="false"/>
     </javaModelGenerator>
     <!--指定生成mapper.xml的路径-->
-    <sqlMapGenerator targetPackage="com.todolist_test2.demo.mbg.mapper" targetProject="src\main\resources"/>
+    <sqlMapGenerator targetPackage="com.todolist_test2.demo.mbg.mapper" targetProject="E:\java_project\mbg"/>
     <!--指定生成mapper接口的的路径-->
     <javaClientGenerator type="XMLMAPPER" targetPackage="com.todolist_test2.demo.mbg.mapper"
-                         targetProject="src\main\java"/>
+                         targetProject="E:\java_project\mbg"/>
     <!--生成全部表tableName设为%-->
     <!--<table tableName="pms_brand">-->
     <table tableName="%">

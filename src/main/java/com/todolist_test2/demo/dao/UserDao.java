@@ -1,5 +1,6 @@
 package com.todolist_test2.demo.dao;
 
+import com.todolist_test2.demo.dto.user.UserInfo;
 import com.todolist_test2.demo.mbg.model.Permission;
 import com.todolist_test2.demo.mbg.model.User;
 import org.apache.ibatis.annotations.Mapper;
@@ -15,5 +16,9 @@ public interface UserDao {
 
     List<String> selectRolesOfUser(Integer userId);
 
-    User loadUserByUsername(String username);
+    UserInfo loadUserByUsername(String username);
+
+    UserInfo loadUserById(Integer userId);
+
+    String getImagePath(Integer userId);
 }

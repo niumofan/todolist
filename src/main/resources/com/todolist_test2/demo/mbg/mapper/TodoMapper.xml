@@ -10,7 +10,7 @@
       <arg column="content" javaType="java.lang.String" jdbcType="VARCHAR" />
       <arg column="priority" javaType="java.lang.Byte" jdbcType="TINYINT" />
       <arg column="start_time" javaType="java.util.Date" jdbcType="TIMESTAMP" />
-      <arg column="alarm_time" javaType="java.util.Date" jdbcType="TIMESTAMP" />
+      <arg column="alarm_time" javaType="java.lang.String" jdbcType="VARCHAR" />
       <arg column="state" javaType="java.lang.Byte" jdbcType="TINYINT" />
       <arg column="subtodos" javaType="java.lang.String" jdbcType="VARCHAR" />
       <arg column="repetition" javaType="java.lang.Long" jdbcType="BIGINT" />
@@ -76,7 +76,7 @@
   </sql>
   <sql id="Base_Column_List">
     id, user_id, category_id, category_name, content, priority, start_time, alarm_time,
-    state, subtodos, `repetition`
+    state, subtodos, repetition
   </sql>
   <select id="selectByExample" parameterType="com.todolist_test2.demo.mbg.model.TodoExample" resultMap="BaseResultMap">
     select
@@ -115,10 +115,10 @@
     insert into b_todo (user_id, category_id, category_name,
     content, priority, start_time,
     alarm_time, state, subtodos,
-    `repetition`)
+    repetition)
     values (#{userId,jdbcType=INTEGER}, #{categoryId,jdbcType=INTEGER}, #{categoryName,jdbcType=VARCHAR},
     #{content,jdbcType=VARCHAR}, #{priority,jdbcType=TINYINT}, #{startTime,jdbcType=TIMESTAMP},
-    #{alarmTime,jdbcType=TIMESTAMP}, #{state,jdbcType=TINYINT}, #{subtodos,jdbcType=VARCHAR},
+    #{alarmTime,jdbcType=VARCHAR}, #{state,jdbcType=TINYINT}, #{subtodos,jdbcType=VARCHAR},
     #{repetition,jdbcType=BIGINT})
   </insert>
   <insert id="insertSelective" parameterType="com.todolist_test2.demo.mbg.model.Todo">
@@ -155,7 +155,7 @@
         subtodos,
       </if>
       <if test="repetition != null">
-        `repetition`,
+        repetition,
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
@@ -178,7 +178,7 @@
         #{startTime,jdbcType=TIMESTAMP},
       </if>
       <if test="alarmTime != null">
-        #{alarmTime,jdbcType=TIMESTAMP},
+        #{alarmTime,jdbcType=VARCHAR},
       </if>
       <if test="state != null">
         #{state,jdbcType=TINYINT},
@@ -222,7 +222,7 @@
         start_time = #{record.startTime,jdbcType=TIMESTAMP},
       </if>
       <if test="record.alarmTime != null">
-        alarm_time = #{record.alarmTime,jdbcType=TIMESTAMP},
+        alarm_time = #{record.alarmTime,jdbcType=VARCHAR},
       </if>
       <if test="record.state != null">
         state = #{record.state,jdbcType=TINYINT},
@@ -231,7 +231,7 @@
         subtodos = #{record.subtodos,jdbcType=VARCHAR},
       </if>
       <if test="record.repetition != null">
-        `repetition` = #{record.repetition,jdbcType=BIGINT},
+        repetition = #{record.repetition,jdbcType=BIGINT},
       </if>
     </set>
     <if test="_parameter != null">
@@ -247,10 +247,10 @@
     content = #{record.content,jdbcType=VARCHAR},
     priority = #{record.priority,jdbcType=TINYINT},
     start_time = #{record.startTime,jdbcType=TIMESTAMP},
-    alarm_time = #{record.alarmTime,jdbcType=TIMESTAMP},
+    alarm_time = #{record.alarmTime,jdbcType=VARCHAR},
     state = #{record.state,jdbcType=TINYINT},
     subtodos = #{record.subtodos,jdbcType=VARCHAR},
-    `repetition` = #{record.repetition,jdbcType=BIGINT}
+    repetition = #{record.repetition,jdbcType=BIGINT}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -277,7 +277,7 @@
         start_time = #{startTime,jdbcType=TIMESTAMP},
       </if>
       <if test="alarmTime != null">
-        alarm_time = #{alarmTime,jdbcType=TIMESTAMP},
+        alarm_time = #{alarmTime,jdbcType=VARCHAR},
       </if>
       <if test="state != null">
         state = #{state,jdbcType=TINYINT},
@@ -286,7 +286,7 @@
         subtodos = #{subtodos,jdbcType=VARCHAR},
       </if>
       <if test="repetition != null">
-        `repetition` = #{repetition,jdbcType=BIGINT},
+        repetition = #{repetition,jdbcType=BIGINT},
       </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
@@ -299,10 +299,10 @@
         content = #{content,jdbcType=VARCHAR},
         priority = #{priority,jdbcType=TINYINT},
         start_time = #{startTime,jdbcType=TIMESTAMP},
-        alarm_time = #{alarmTime,jdbcType=TIMESTAMP},
+        alarm_time = #{alarmTime,jdbcType=VARCHAR},
         state = #{state,jdbcType=TINYINT},
         subtodos = #{subtodos,jdbcType=VARCHAR},
-        `repetition` = #{repetition,jdbcType=BIGINT}
+        repetition = #{repetition,jdbcType=BIGINT}
     where id = #{id,jdbcType=INTEGER}
   </update>
 </mapper>

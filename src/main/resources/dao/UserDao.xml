@@ -8,9 +8,22 @@
         WHERE rur.user_id = #{userId}
     </select>
     
-    <select id="loadUserByUsername" resultType="com.todolist_test2.demo.mbg.model.User">
+    <select id="loadUserByUsername" resultType="com.todolist_test2.demo.dto.user.UserInfo">
         SELECT id, username, nickname, sex, mobile, qq, wexin, email
         FROM s_user
         WHERE username = #{username}
     </select>
+
+    <select id="loadUserById" resultType="com.todolist_test2.demo.dto.user.UserInfo">
+        SELECT id, username, nickname, sex, mobile, qq, wexin, email
+        FROM s_user
+        WHERE id = #{userId}
+    </select>
+
+    <select id="getImagePath" resultType="java.lang.String">
+        SELECT head_icon
+        FROM s_user
+        WHERE id = #{userId}
+    </select>
+
 </mapper>
