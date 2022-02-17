@@ -1,6 +1,7 @@
 package com.todolist_test2.demo.service;
 
 import com.alibaba.fastjson.JSON;
+import com.todolist_test2.demo.component.UserContext;
 import com.todolist_test2.demo.dao.TodoDao;
 import com.todolist_test2.demo.dto.todo.AddTodoDTO;
 import com.todolist_test2.demo.dto.todo.DeleteTodoDTO;
@@ -8,7 +9,10 @@ import com.todolist_test2.demo.dto.todo.ModifyTodoDTO;
 import com.todolist_test2.demo.dto.todo.QueryTodoDTO;
 import com.todolist_test2.demo.entity.Subtodo;
 import com.todolist_test2.demo.enums.TodoState;
+import com.todolist_test2.demo.mbg.mapper.CategoryMapper;
 import com.todolist_test2.demo.mbg.mapper.TodoMapper;
+import com.todolist_test2.demo.mbg.model.Category;
+import com.todolist_test2.demo.mbg.model.CategoryExample;
 import com.todolist_test2.demo.mbg.model.Todo;
 import com.todolist_test2.demo.mbg.model.TodoExample;
 import org.springframework.beans.BeanUtils;
@@ -31,6 +35,12 @@ public class TodoService {
 
     private TodoDao todoDao;
 
+    private CategoryService categoryService;
+
+    private CategoryMapper categoryMapper;
+
+    private UserContext userContext;
+
     @Autowired
     public void setTodoMapper(TodoMapper todoMapper) {
         this.todoMapper = todoMapper;
@@ -41,9 +51,25 @@ public class TodoService {
         this.todoDao = todoDao;
     }
 
+    @Autowired
+    public void setCategoryService(CategoryService categoryService) {
+        this.categoryService = categoryService;
+    }
+
+    @Autowired
+    public void setCategoryMapper(CategoryMapper categoryMapper) {
+        this.categoryMapper = categoryMapper;
+    }
+
+    @Autowired
+    public void setUserContext(UserContext userContext) {
+        this.userContext = userContext;
+    }
+
     /* 添加非重复待办 */
     public Todo addSingleTodo(AddTodoDTO todoDTO) {
 
+        checkCategory(todoDTO);
 
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(todoDTO.getStartTime());
@@ -71,6 +97,9 @@ public class TodoService {
 
     /* 添加重复待办 */
     public List<Todo> addRepeatedTodo(AddTodoDTO todoDTO) {
+
+        checkCategory(todoDTO);
+
         List<Todo> todos = new ArrayList<>();
 
         /* 设置子任务状态为待办 */
@@ -162,15 +191,14 @@ public class TodoService {
         TodoExample example = new TodoExample();
         if (todoDTO.getRepetition()) {
             Long repetition = todoMapper.selectByPrimaryKey(todoDTO.getId()).getRepetition();
-            System.out.println(repetition);
             example.createCriteria().
-                    andStateEqualTo(TodoState.TODO.getCode().byteValue()).
+//                    andStateEqualTo(TodoState.TODO.getCode().byteValue()).
                     andUserIdEqualTo(todoDTO.getUserId()).
                     andRepetitionEqualTo(repetition);
         } else {
             example.createCriteria().
-                    andIdEqualTo(todoDTO.getId()).
-                    andStateEqualTo(TodoState.TODO.getCode().byteValue());
+                    andIdEqualTo(todoDTO.getId());
+//                    andStateEqualTo(TodoState.TODO.getCode().byteValue());
         }
         todoMapper.updateByExampleSelective(todo, example);
         return 0;
@@ -206,5 +234,29 @@ public class TodoService {
             }
         }
         return alarmTimeList;
+    }
+
+    private void checkCategory(AddTodoDTO todoDTO) {
+        String categoryName = todoDTO.getCategoryName();
+        if (categoryName == null || (categoryName = categoryName.trim()).length() == 0) {
+            categoryName = "无分类";
+        }
+        if (categoryName.equals("无分类")) {
+            todoDTO.setCategoryId(0);
+        } else {
+            Integer userId = userContext.getUserId();
+            CategoryExample example = new CategoryExample();
+            example.createCriteria().andUserIdEqualTo(userId).andNameEqualTo(categoryName);
+            List<Category> categories = categoryMapper.selectByExample(example);
+            if (categories.size() > 0) {
+                todoDTO.setCategoryId(categories.get(0).getId());
+            } else {
+                Category category = new Category();
+                category.setUserId(userId);
+                category.setName(categoryName);
+                categoryMapper.insert(category);
+                todoDTO.setCategoryId(category.getId());
+            }
+        }
     }
 }

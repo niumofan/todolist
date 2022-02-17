@@ -5,6 +5,7 @@ import com.todolist_test2.demo.utils.ResultTool;
 import com.todolist_test2.demo.vo.JsonResult;
 import org.apache.shiro.authc.AuthenticationException;
 import org.springframework.dao.DuplicateKeyException;
+import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -33,7 +34,13 @@ public class CustomizeExceptionHandler {
         }
         /* 传入参数校验异常 */
         else if (e instanceof MethodArgumentNotValidException) {
-            String msg = Objects.requireNonNull(((MethodArgumentNotValidException) e).getBindingResult().getFieldError()).getDefaultMessage();
+            String msg;
+            BindingResult bindingResult = ((MethodArgumentNotValidException) e).getBindingResult();
+            if (bindingResult.hasFieldErrors()) {
+                msg = Objects.requireNonNull(bindingResult.getFieldError()).getDefaultMessage();
+            } else {
+                msg = bindingResult.getAllErrors().get(0).getDefaultMessage();
+            }
             return ResultTool.fail(ResultCode.PARAM_NOT_VALID, msg);
         }
         /* 认证失败 */

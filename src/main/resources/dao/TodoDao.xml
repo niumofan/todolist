@@ -46,6 +46,9 @@
       <if test="categoryId != null">
         and category_id = #{categoryId}
       </if>
+      <if test="categoryName != null">
+        and category_name = #{categoryName}
+      </if>
       <if test="userId != null">
         and user_id = #{userId}
       </if>

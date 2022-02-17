@@ -24,7 +24,8 @@ public class AddTodoDTO {
     @NotNull(message = "userId[user.id.notnull]")
     private Integer userId;
 
-    @ApiModelProperty(value = "待办事项所属的分类ID(不属于任何分类时为0)", example = "1", position = 1)
+//    @ApiModelProperty(value = "待办事项所属的分类ID(不属于任何分类时为0)", example = "1", position = 1)
+    @ApiModelProperty(hidden = true)
     private Integer categoryId = 0;
 
     @ApiModelProperty(value = "分类名(不属于任何分类时为'无分类')", example = "健身", position = 2)
