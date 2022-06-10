@@ -28,6 +28,7 @@ spring:
   jackson:
     date-format: yyyy-MM-dd HH:mm:ss
     time-zone: GMT+8
+    default-property-inclusion: non_null
   kafka:
     bootstrap-servers: 106.15.177.150:9092
     producer:

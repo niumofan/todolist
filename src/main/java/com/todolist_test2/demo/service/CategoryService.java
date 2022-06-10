@@ -36,6 +36,8 @@ public class CategoryService {
 
     private final Object queryLock = new Object();
 
+    private static String CATE_PREFIX = "category:user:";
+
     @Autowired
     public void setCategoryMapper(CategoryMapper categoryMapper) {
         this.categoryMapper = categoryMapper;
@@ -60,7 +62,7 @@ public class CategoryService {
         Category category = new Category(null, categoryDTO.getUserId(), categoryDTO.getName());
         int i = categoryMapper.insert(category);
         if (i > 0) {
-            kafkaService.sendRemoveCache("category::user::" + categoryDTO.getUserId());
+            kafkaService.sendRemoveCache(CATE_PREFIX + categoryDTO.getUserId());
         }
         return category;
     }
@@ -69,7 +71,7 @@ public class CategoryService {
     public int deleteCategory(DelCategoryDTO categoryDTO) {
         int i = categoryDao.deleteCategoryByIds(categoryDTO.getCategoryIds());
         if (i > 0) {
-            kafkaService.sendRemoveCache("category::user::" + categoryDTO.getUserId());
+            kafkaService.sendRemoveCache(CATE_PREFIX + categoryDTO.getUserId());
         }
         return i;
     }
@@ -80,21 +82,22 @@ public class CategoryService {
         category.setName(categoryDTO.getName());
         int i = categoryMapper.updateByPrimaryKeySelective(category);
         if (i > 0) {
-            kafkaService.sendRemoveCache("category::user::" + categoryDTO.getUserId());
+            kafkaService.sendRemoveCache(CATE_PREFIX + categoryDTO.getUserId());
         }
         return category;
     }
 
     public List queryCategories(QueryCategoryDTO categoryDTO) {
-        String key = "category::user::" + categoryDTO.getUserId();
+        String key = CATE_PREFIX + categoryDTO.getUserId();
         List<Category> categories = redisService.lGet(key);
         if (categories == null || categories.size() == 0) {
             synchronized (queryLock) {
                 categories = redisService.lGet(key);
                 if (categories == null || categories.size() == 0) {
-                    CategoryExample example = new CategoryExample();
-                    example.createCriteria().andUserIdEqualTo(categoryDTO.getUserId());
-                    categories = categoryMapper.selectByExample(example);
+//                    CategoryExample example = new CategoryExample();
+//                    example.createCriteria().andUserIdEqualTo(categoryDTO.getUserId());
+//                    categories = categoryMapper.selectByExample(example);
+                    categories = categoryDao.query(categoryDTO);
                     redisService.lPush(key, categories, 12 * 3600L);  // 过期时间12小时
                 }
             }

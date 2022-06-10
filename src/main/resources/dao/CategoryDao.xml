@@ -8,4 +8,10 @@
         #{id}
       </foreach>
   </delete>
+
+  <select id="query" resultType="com.todolist_test2.demo.mbg.model.Category">
+    SELECT id, `name`
+    FROM b_category
+    WHERE user_id = #{userId}
+  </select>
 </mapper>

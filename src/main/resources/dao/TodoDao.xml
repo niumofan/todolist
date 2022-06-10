@@ -37,7 +37,7 @@
   
   <select id="queryTodos" parameterType="com.todolist_test2.demo.dto.todo.QueryTodoDTO"
   resultType="com.todolist_test2.demo.mbg.model.Todo">
-    SELECT *
+    SELECT id, category_id, category_name, content, priority, start_time, alarm_time, state, subtodos
     FROM b_todo
     <where>
       <if test="id != null">
